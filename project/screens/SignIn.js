@@ -17,7 +17,7 @@ export default function SignInPage({navigation}) {
     signInWithEmailAndPassword(auth,email, password)
       .then(() => {
         setIsSignedIn(true);
-        navigation.navigate('WelcomePage');
+        navigation.navigate("Welcome");
       })
     .catch((error) => {
       seterrorMsg(error.message);
