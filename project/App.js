@@ -15,6 +15,8 @@ function App() {
         <Stack.Screen name="Home" component={HomeScreen} options = {{ headerShown:false}}/>
         <Stack.Screen name="SignInPage" component={SignInPage} />
         <Stack.Screen name="SignupPage" component={SignupPage} />
+        <Stack.Screen name="SignupPage" component={SignupPage} />
+
       </Stack.Navigator>
     </NavigationContainer>
   );
