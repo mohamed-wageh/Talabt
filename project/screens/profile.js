@@ -3,9 +3,12 @@ import { Button, StyleSheet, Text, TextInput, View ,Image,TouchableOpacity } fro
 import { useState } from 'react'; 
 import profile from '../assets/profile.jpg';
 import auth from '../firebase/firebase';
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+
 export default function Profile({navigation}) {
     const [email, setEmail] =useState('');
     const [password, setPassword] = useState('');
+    const auth = getAuth();
     const handleSignOut = () => {
         navigation.navigate('Home');
         signOut (auth)
@@ -23,29 +26,48 @@ export default function Profile({navigation}) {
         <Text style={styles.title}> My Profile </Text>
 
         <View style={styles.buttonContainer}>
-            <TextInput
-           style={styles.input}
-           placeholder="User Name"
-           value='Maryoma'
-         />
-        <TextInput
-          style={styles.input}
-          placeholder="Email"
-          onChangeText={setEmail}
-          value={email}
-        />
-          <TextInput
-         style={styles.input}
-         placeholder="Mobile Number"
-         value={"01100297301"}
-       />
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          value={password}
-          secureTextEntry={true}
-          onChangeText={setPassword}
-        />
+            
+        <View style={styles.textinputContainer}>
+        <View style={styles.labelContainer}>
+                <Text>User Name</Text>
+         </View>
+        <View style={styles.inputContainer}>
+        <TextInput placeholder="Enter User Name" />
+            </View>
+           </View>
+         
+
+         <View style={styles.textinputContainer}>
+        <View style={styles.labelContainer}>
+                <Text>Email Address</Text>
+            </View>
+        <View style={styles.inputContainer}>
+        <TextInput placeholder="Enter email address"
+         keyboardType="email-address"
+         onChangeText={setEmail}
+         value={email}/>
+        </View>
+         </View>
+         
+         <View style={styles.textinputContainer}>
+        <View style={styles.labelContainer}>
+                <Text>Mobile Number</Text>
+            </View>
+        <View style={styles.inputContainer}>
+        <TextInput placeholder="Enter Mobile Number" keyboardType="phone-pad" />
+        </View>
+         </View>
+
+         <View style={styles.textinputContainer}>
+        <View style={styles.labelContainer}>
+                <Text>Location</Text>
+            </View>
+        <View style={styles.inputContainer}>
+        <TextInput placeholder="Enter Location"        
+          />
+        
+         </View>
+         </View>
 
         </View>
 
@@ -109,6 +131,29 @@ const styles = StyleSheet.create({
             marginBottom: 20,
            
           },
-
+          labelContainer: {
+            backgroundColor: 'white', // Same color as background
+            alignSelf: 'flex-start', // Have View be same width as Text inside
+            paddingHorizontal: 3, // Amount of spacing between border and first/last letter
+            marginStart: 10, // How far right do you want the label to start
+            position: 'relative', // Needed to be able to precisely overlap label with border
+            top: -10,
+            shadowColor: 'white',
+            zIndex:1,
+           
+        },
+        inputContainer: {
+            borderWidth: 2, // Create border
+            borderRadius: 10, // Not needed. Just make it look nicer.
+            padding: 8, // Also used to make it look nicer
+           position:'absolute',
+           zIndex:0,
+           marginBottom:10,
+           width:'95%',
+        },
+        textinputContainer:{
+            margin:20,
+            left:10,
+        },
       
 });
