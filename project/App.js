@@ -1,29 +1,18 @@
-import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import SignInPage from './screens/signin';
-import HomeScreen from './screens/homescreen';
-import SignupPage from './screens/signup';
-
-
-const Stack = createNativeStackNavigator();
-
-function App() {
+import { StatusBar } from 'expo-status-bar';
+import { StyleSheet, Text, View,SafeAreaView } from 'react-native';
+import Welcome from './screens/Welcome';
+import SignIn from './screens/signin';
+export default function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen name="SignInPage" component={SignInPage} />
-        <Stack.Screen name="SignupPage" component={SignupPage} />
-        <Stack.Screen name="Welcome" component={Welcome} />
-        <Stack.Screen name="Welcome" component={Welcome} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <SafeAreaView style={styles.root}>
+      <SignIn />
+    </SafeAreaView>
   );
 }
 
-export default App;
+const styles = StyleSheet.create({
+  root: {
+    flex: 1,
+    backgroundColor:'white',
+  },
+});
