@@ -1,11 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View,SafeAreaView } from 'react-native';
-import Welcome from './screens/Welcome';
-import SignIn from './screens/signin';
+import Index from './navigation/index'
 export default function App() {
   return (
     <SafeAreaView style={styles.root}>
-      <SignIn />
+      <Index />
     </SafeAreaView>
   );
 }

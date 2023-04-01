@@ -1,36 +1,45 @@
 import { useState } from 'react';
 import {
   View,
-  Text,
   StyleSheet,
   useWindowDimensions,
   Image,
   ScrollView
 } from "react-native";
+import {
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import React from 'react'
+import auth from "../firebase/firebase";
 import CustomInput from '../component/CustomInput';
 import CustomButton from '../component/CustomButton';
 import Logo from '../assets/img/logo.jpg'
 
-const SignIn = () => {
-  const [Email, setEmail] = useState('');
-  const [Password,setPassword] = useState('');
+const SignIn = ({ navigation }) => {
+  const [Email, setEmail] = useState("");
+  const [Password, setPassword] = useState("");
   const { height } = useWindowDimensions();
-  const handleSignIn = () =>  {
-    window.alert("done");
-  }
+  const handleSignIn = () => {
+    signInWithEmailAndPassword(auth, Email, Password)
+      .then(() => {
+        navigation.navigate("Profile");
+      })
+      .catch((error) => {
+        window.alert(error.message);
+      });
+  };
   const handleOnSignUpPress = () => {
-    window.alert("done");
+    navigation.navigate("SignUp2");
   };
   const handleSignInWithGoogle = () => {
-    console.log("done");
+    window.alert("handleSignInWithGoogle");
   };
   const handleSignInWithFacebook = () => {
-    console.log("done handleSignInWithFacebook");
+    window.alert("handleSignInWithFacebook");
   };
-  const handleForgetPassword = () =>  {
-    console.warn("done fg")
-  }
+  const handleForgetPasswordPress = () => {
+    navigation.navigate("Forget");
+  };
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={styles.container}>
@@ -49,7 +58,7 @@ const SignIn = () => {
         <CustomButton text="Sign In" onPress={handleSignIn} />
         <CustomButton
           text="Forget Password?"
-          onPress={handleForgetPassword}
+          onPress={handleForgetPasswordPress}
           type="Link"
         />
         <CustomButton
@@ -72,7 +81,7 @@ const SignIn = () => {
       </View>
     </ScrollView>
   );
-}
+};
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
@@ -80,8 +89,8 @@ const styles = StyleSheet.create({
   },
   logo: {
     width: "70%",
-    // maxWidth: 300,
-    // maxHeight: 500,
+    maxWidth: 300,
+    maxHeight: 500,
   },
   title: {
     fontWeight: "bold",

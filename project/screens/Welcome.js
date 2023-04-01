@@ -3,8 +3,11 @@ import React from 'react'
 import Logo from '../assets/img/logo.jpg'
 import CustomButton from "../component/CustomButton";
 
-const Welcome = () => {
-  const {height} = useWindowDimensions();
+const Welcome = ({ navigation }) => {
+  const { height } = useWindowDimensions();
+  const handleGetStarted = () => {
+    navigation.navigate("SignIn");
+  };
   return (
     <View style={styles.container}>
       <Image
@@ -13,16 +16,18 @@ const Welcome = () => {
         resizeMode="contain"
       />
       <View>
-        <Text style={styles.title}>Make Healthy Life With Fresh Grocery</Text>
+        <Text style={styles.title}>
+          Make Healthy Life With <Text style={styles.span}>Fresh</Text> Grocery
+        </Text>
         <Text style={styles.text}>
           Get The Best Quality And The Most Delicious Grocery Foods In The
           World,To Get Them All Just Use Our App
         </Text>
       </View>
-      <CustomButton/>
+      <CustomButton text="GET STARTED" onPress={handleGetStarted} />
     </View>
   );
-}
+};
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
@@ -38,12 +43,15 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 50,
     marginBottom: 10,
-    color: "##1e1f26",
+    color: "#1e1f26",
   },
   text: {
     fontSize: 20,
     marginBottom: 10,
     color: "#3A3967",
+  },
+  span: {
+    color: "green",
   },
 });
 export default Welcome
