@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, ImageBackground } from 'react-native';
 import { createUserWithEmailAndPassword,signInWithEmailAndPassword,signOut  } from 'firebase/auth';
-import auth from '../firebase/firebase';
 import backgroundImage from '../assets/test.jpg';
 
 export default function SignInPage({navigation}) {
