@@ -18,11 +18,8 @@ function App() {
           options={{ headerShown: false }}
         />
         <Stack.Screen name="SignInPage" component={SignInPage} />
-        <Stack.Screen name="SignupPage" component={SignupPage} />
         <Stack.Screen name="Welcome" component={Welcome} />
-        <Stack.Screen name="Welcome" component={Welcome} />
-      </Stack.Navigator>
-    </NavigationContainer>
+
   );
 }
 
