@@ -3,7 +3,7 @@ import CustomButton from "../component/CustomButton";
 import auth from "../firebase/firebase";
 import { signOut } from "firebase/auth";
 
-const profile = ({ navigation }) => {
+const Profile = ({ navigation }) => {
   const handleSignOut = () => {
     signOut(auth)
       .then(() => {
@@ -16,15 +16,15 @@ const profile = ({ navigation }) => {
   };
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Welcome {auth.currentUser.email}</Text>
+      <Text style={styles.title}>Welcome {auth.currentUser.displayName}</Text>
       <CustomButton text="Sign Out" onPress={handleSignOut} />
     </View>
   );
 };
 const styles = StyleSheet.create({
   container: {
+    justifyContent: "center",
     alignItems: "center",
-    justifyContent:"center",
     padding: 20,
     height: "100%",
   },
@@ -35,4 +35,4 @@ const styles = StyleSheet.create({
     color: "#1e1f26",
   },
 });
-export default profile
+export default Profile;

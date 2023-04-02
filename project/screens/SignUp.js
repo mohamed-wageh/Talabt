@@ -1,44 +1,78 @@
 import { useState } from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  updateProfile,
+  GoogleAuthProvider,
+  signInWithRedirect,
+  getRedirectResult,
+} from "firebase/auth";
 import auth from "../firebase/firebase";
 import React from "react";
 import CustomInput from "../component/CustomInput";
 import CustomButton from "../component/CustomButton";
 
-const SignIn = ({ navigation }) => {
+const SignUp = ({ navigation }) => {
   const [Email, setEmail] = useState("");
   const [Name, setName] = useState("");
   const [Password, setPassword] = useState("");
   const [PasswordRepeat, setPasswordRepeat] = useState("");
+  const provider = new GoogleAuthProvider();
   const handleRegister = () => {
-    createUserWithEmailAndPassword(auth, Email, Password, Name)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        window.alert("User account created");
-      })
-      .catch((error) => {
-        window.alert(error.message);
-      });
-  };
-  const handleProfile = () => {
-    updateProfile(auth.currentUser, {
-      displayName: Name,
-    })
-      .then(() => {
-        const displayName = user.displayName;
-        console.log("profile update");
-        console.log(displayName);
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
+    if (Password === PasswordRepeat) {
+      createUserWithEmailAndPassword(auth, Email, Password, Name)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          window.alert("User account created");
+          updateProfile(auth.currentUser, {
+            displayName: Name,
+          })
+            .then(() => {
+              // Profile updated!
+              // ...
+            })
+            .catch((error) => {
+              window.alert(error.message);
+            });
+        })
+        .catch((error) => {
+          window.alert(error.message);
+        });
+    } else {
+      window.alert("Not Same Password");
+    }
+    
   };
   const handleOnSignInPress = () => {
     navigation.navigate("SignIn");
   };
   const handleSignInWithGoogle = () => {
-    console.log("handleSignInWithGoogle");
+    signInWithRedirect(auth, provider);
+    getRedirectResult(auth)
+      .then((result) => {
+        // This gives you a Google Access Token. You can use it to access Google APIs.
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential.accessToken;
+        console.log(token);
+        // The signed-in user info.
+        const user = result.user;
+        // IdP data available using getAdditionalUserInfo(result)
+        console.log(user);
+        // ...
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        console.log(errorMessage);
+        const email = error.customData.email;
+        // The AuthCredential type that was used.
+        console.log(email);
+        const credential = GoogleAuthProvider.credentialFromError(error);
+        // ...
+        console.log(credential);
+      });
   };
   const handleSignInWithFacebook = () => {
     console.log("handleSignInWithFacebook");
@@ -116,4 +150,4 @@ const styles = StyleSheet.create({
     color: "#fdb075",
   },
 });
-export default SignIn;
+export default SignUp;
