@@ -8,7 +8,7 @@ const[Email,setEmail]=useState('')
 
 const handleSignIn = () => {
     
-      navigation.navigate('SignInPage');
+      navigation.navigate("SignIn");
 }
 const handleForgotPassword= () => {
 sendPasswordResetEmail(auth, Email)
