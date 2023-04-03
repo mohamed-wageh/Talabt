@@ -4,28 +4,26 @@ import backgroundImage from '../assets/N.png';
 
 
 
-const Start = () => {
+const Start = ({ navigation }) => {
   return (
-    <View style={styles.container}>   
+    <View style={styles.container}>
       <ImageBackground source={backgroundImage} style={styles.backgroundImage}>
-      <Text style={styles.Text}>My Team </Text>
-          <Text style={styles.Text}>Welcomes </Text>
-          <Text style={styles.Text}>  To You</Text>
-          
-    <View style={styles.buttonContainer}>
-        <TouchableOpacity 
-        onPress={() => navigation.navigate('HomeScreen')} 
-        style={styles.Button} >
-        <Text style={styles.buttonText}>Next</Text>
-        </TouchableOpacity>
+        <Text style={styles.Text}>My Team </Text>
+        <Text style={styles.Text}>Welcomes </Text>
+        <Text style={styles.Text}> To You</Text>
 
-    </View>
-         
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("SignIn")}
+            style={styles.Button}
+          >
+            <Text style={styles.buttonText}>Next</Text>
+          </TouchableOpacity>
+        </View>
       </ImageBackground>
-         
     </View>
-  )
-}
+  );
+};
 
 
 
