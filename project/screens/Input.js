@@ -7,6 +7,7 @@ const Input = ({
   label,
   iconName,
   password,
+  placeholder
   }) => {
     return (
       <View style={{marginBottom: 20}}>
@@ -27,7 +28,7 @@ const Input = ({
           autoCorrect={false}
             // secureTextEntry={hidePassword}
             style={{color:  '#7978B5', flex: 1}}
-           
+            placeholder={placeholder}
           />
           {password && (
             <Icon
