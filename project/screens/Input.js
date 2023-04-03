@@ -7,7 +7,9 @@ const Input = ({
   label,
   iconName,
   password,
-  placeholder
+  placeholder,
+  onChangeText,
+  secureTextEntry
   }) => {
     return (
       <View style={{marginBottom: 20}}>
@@ -29,6 +31,8 @@ const Input = ({
             // secureTextEntry={hidePassword}
             style={{color:  '#7978B5', flex: 1}}
             placeholder={placeholder}
+            onChangeText={onChangeText}
+            secureTextEntry={secureTextEntry}
           />
           {password && (
             <Icon
