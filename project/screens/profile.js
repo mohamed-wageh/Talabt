@@ -3,20 +3,18 @@ import { Button, StyleSheet, Text, TextInput, View ,Image,TouchableOpacity } fro
 import { useState } from 'react'; 
 import profile from '../assets/profile.jpg';
 import auth from '../firebase.js/firebase';
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { signOut } from "firebase/auth";
 
 export default function Profile({navigation}) {
     const [email, setEmail] =useState('');
     const [password, setPassword] = useState('');
     const handleSignOut = () => {
-        navigation.navigate('Home');
         signOut (auth)
           .then(() => {
-            setIsSignedIn(false);
-            setMsg('signOut Done');
+            navigation.navigate("SignIn");
           })
         .catch((error) => {
-          seterrorMsg(error.message);
+          console.log(error.message);
     });
 }
      return (
