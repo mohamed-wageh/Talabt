@@ -26,7 +26,6 @@ sendPasswordResetEmail(auth, Email)
 }
   return (
     <View style={styles.Container}>
-
       <ImageBackground source={testimg} style={styles.backgroundimage}/>
       <Text style={styles.title}>Enter your email below and we'll help you to reset your password</Text>
       <TextInput style={styles.input}
@@ -34,8 +33,6 @@ sendPasswordResetEmail(auth, Email)
       value={Email}
       onChangeText={setEmail}
       />
-
-     
   <TouchableOpacity style={styles.button} onPress={handleForgotPassword}>
             <Text style={styles.buttonText}>Send Link</Text>          
           </TouchableOpacity>
