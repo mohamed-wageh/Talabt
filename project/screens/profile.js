@@ -12,6 +12,9 @@ export default function Profile({navigation}) {
         signOut (auth)
           .then(() => {
             navigation.navigate("SignIn");
+            console.log(auth.currentUser.displayName)
+        console.log(auth.currentUser.email)
+        console.log(auth.currentUser.phoneNumber)
           })
         .catch((error) => {
           console.log(error.message);
@@ -29,7 +32,7 @@ export default function Profile({navigation}) {
                 <Text>User Name</Text>
          </View>
         <View style={styles.inputContainer}>
-        <TextInput placeholder="Enter User Name" />
+        <TextInput placeholder="Enter User Name" value={auth.currentUser.displayName} />
             </View>
            </View>
          
@@ -42,7 +45,7 @@ export default function Profile({navigation}) {
         <TextInput placeholder="Enter email address"
          keyboardType="email-address"
          onChangeText={setEmail}
-         value={email}/>
+         value={auth.currentUser.email}/>
         </View>
          </View>
          
@@ -53,17 +56,6 @@ export default function Profile({navigation}) {
         <View style={styles.inputContainer}>
         <TextInput placeholder="Enter Mobile Number" keyboardType="phone-pad" />
         </View>
-         </View>
-
-         <View style={styles.textinputContainer}>
-        <View style={styles.labelContainer}>
-                <Text>Location</Text>
-            </View>
-        <View style={styles.inputContainer}>
-        <TextInput placeholder="Enter Location"        
-          />
-        
-         </View>
          </View>
 
         </View>

@@ -130,6 +130,7 @@ import {
             placeholder="Enter your Password"
              secureTextEntry={true}
              onChangeText={setPassword}
+             Password
           />
  <Input
             iconName="lock-outline"
@@ -137,6 +138,7 @@ import {
             placeholder="Enter your Password Repeat"
              secureTextEntry={true}
              onChangeText={setPasswordRepeat}
+             Password
           />
 
 <TouchableOpacity style={styles.button} onPress={handleRegister} >

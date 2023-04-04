@@ -23,6 +23,9 @@ const SignIn = ({ navigation }) => {
     signInWithEmailAndPassword(auth, Email, Password)
       .then(() => {
         navigation.navigate("Profile");
+        console.log(auth.currentUser.displayName)
+        console.log(auth.currentUser.email)
+        console.log(auth.currentUser.phoneNumber)
       })
       .catch((error) => {
         window.alert(error.message);
@@ -57,6 +60,7 @@ Enter Your Details to Login
 iconName="email-outline"
 label="Email"
 placeholder="Enter your email address"
+onChangeText={setEmail}
 />
 <Input
 
@@ -64,6 +68,7 @@ iconName="lock-outline"
 label="Password"
 placeholder="Enter your password"
 Password
+onChangeText={setPassword}
 />
 
 

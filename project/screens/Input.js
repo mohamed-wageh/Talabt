@@ -7,7 +7,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 const Input = ({
   label,
   iconName,
-  password,
+  Password,
   placeholder,
   onChangeText,
   secureTextEntry
@@ -32,7 +32,8 @@ const Input = ({
           <TextInput
           secureTextEntry={hidePassword}
           style={{color:  '#7978B5', flex: 1}}
-          
+          placeholder={placeholder}
+          onChangeText={onChangeText}
         />
         {Password && (
         <Icon
