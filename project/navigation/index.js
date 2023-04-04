@@ -4,7 +4,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import SignIn from "../screens/SignIn";
 import Profile from "../screens/profile";
-import Signup from "../screens/signup";
+import Signup from "../screens/SignUp";
 import Forget from "../screens/forget";
 import Welcome from "../screens/Welcome";
 import Start from "../screens/Start";

@@ -1,27 +1,12 @@
-// import { View, Text, TextInput } from 'react-native'
-// import React from 'react'
-// import { StyleSheet } from 'react-native'
-
-
-// const SignUp = () => {
-//   return (
-//     <View>
-//       <Text style={styles.title}>Register</Text>
-//       <Text style={styles.text}>Enter Your Details to Register</Text>
-//         <Text>Email</Text>
-//         <TextInput style= {styles.input} placeholder= "Email"/>  
-//     </View>
-//   )
-// }
-// const styles = StyleSheet.create({
-//   title: { fontSize: 30, fontWeight: 'bold', marginTop: 15, marginBottom: 5, marginRight:10w},
-//   text: { fontSize: 15, color: '#BABBC3' }
-
-// })
-
-// export default SignUp
-
-
+import { useState } from "react";
+import {
+  createUserWithEmailAndPassword,
+  updateProfile,
+  GoogleAuthProvider,
+  signInWithRedirect,
+  getRedirectResult,
+} from "firebase/auth";
+import auth from '../firebase.js/firebase';
 import React from 'react';
 import {
     View,
@@ -36,7 +21,76 @@ import {
     import Input from './Input';
 
     const SignUp = ({navigation}) => {
-       
+      const [Email, setEmail] = useState("");
+      const [Name, setName] = useState("");
+      const [Password, setPassword] = useState("");
+      const [PasswordRepeat, setPasswordRepeat] = useState("");
+      const [Phone, setPhone] = useState("");
+      
+      const provider = new GoogleAuthProvider();
+      const handleRegister = () => {
+        if (Password === PasswordRepeat) {
+          createUserWithEmailAndPassword(auth, Email, Password)
+            .then((userCredential) => {
+              const user = userCredential.user;
+              window.alert(auth.currentUser.displayName);
+              updateProfile(auth.currentUser, {
+                displayName: Name,
+                phoneNumber:Phone,
+              })
+                .then(() => {
+                  // Profile updated!
+                  // ...
+                })
+                .catch((error) => {
+                  window.alert(error.message);
+                });
+            })
+            .catch((error) => {
+              window.alert(error.message);
+            });
+        } else {
+          window.alert("Not Same Password");
+        }
+        
+      };
+      const handleOnSignInPress = () => {
+        navigation.navigate("SignIn");
+      };
+      const handleSignInWithGoogle = () => {
+        signInWithRedirect(auth, provider);
+        getRedirectResult(auth)
+          .then((result) => {
+            // This gives you a Google Access Token. You can use it to access Google APIs.
+            const credential = GoogleAuthProvider.credentialFromResult(result);
+            const token = credential.accessToken;
+            console.log(token);
+            // The signed-in user info.
+            const user = result.user;
+            // IdP data available using getAdditionalUserInfo(result)
+            console.log(user);
+            // ...
+          })
+          .catch((error) => {
+            // Handle Errors here.
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            // The email of the user's account used.
+            console.log(errorMessage);
+            const email = error.customData.email;
+            // The AuthCredential type that was used.
+            console.log(email);
+            const credential = GoogleAuthProvider.credentialFromError(error);
+            // ...
+            console.log(credential);
+          });
+      };
+      const handleSignInWithFacebook = () => {
+        console.log("handleSignInWithFacebook");
+      };
+      const handleForgetPassword = () => {
+        navigation.navigate("Forget");
+      };
       return (
         <SafeAreaView style={{backgroundColor: '#fff' , flex: 1}}>
           <View style={{paddingTop: 50, paddingHorizontal: 20}}>
@@ -46,41 +100,54 @@ import {
       <Text style={{color: '#BABBC3', fontSize: 18, marginVertical: 10}}>
       Enter Your Details to Register
       </Text>
-      <View style={{marginVertical: 80}}>
+      <View style={{marginVertical: 55}}>
 
 
       <Input
             iconName="email-outline"
             label="Email"
             placeholder="Enter your email address"
+            value={Email}
+            onChangeText={setEmail}
           />
           <Input
                  iconName="account-outline"
                  label="Full Name"
                  placeholder="Enter your full name"
+                 value={Name}
+                 onChangeText={setName}
           />
            <Input
                     iconName="phone-outline"
                     label="Phone Number"
                     placeholder="Enter your phone no"
+                    value={Phone}
+                    onChangeText={setPhone}
           />
           <Input
             iconName="lock-outline"
             label="Password"
-            placeholder="Enter your password"
+            placeholder="Enter your Password"
              secureTextEntry={true}
+             onChangeText={setPassword}
+          />
+ <Input
+            iconName="lock-outline"
+            label="PasswordRepeat"
+            placeholder="Enter your Password Repeat"
+             secureTextEntry={true}
+             onChangeText={setPasswordRepeat}
           />
 
-
-<TouchableOpacity style={styles.button} >
-           <Text style={styles.buttonText}>Sign In</Text>
+<TouchableOpacity style={styles.button} onPress={handleRegister} >
+           <Text style={styles.buttonText}>Sign Up</Text>
          </TouchableOpacity>
 
-          {/* <Button title="Log In"  /> */}
-
+          <TouchableOpacity   onPress={handleOnSignInPress}>
           <Text style={styles.buttonText2}>
           Already have account ? Login
           </Text>
+          </TouchableOpacity>
           </View>
           </View>
           </SafeAreaView>
@@ -98,7 +165,7 @@ import {
         height: 55,
         width: '100%',
         backgroundColor: '#B57EDC',
-        marginVertical: 30,
+        marginTop:20, marginBottom:20,
         justifyContent: 'center',
         alignItems: 'center',
                 activeOpacity : 0.7 ,

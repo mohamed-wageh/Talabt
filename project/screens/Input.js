@@ -7,8 +7,10 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 const Input = ({
   label,
   iconName,
-  Password,
-  placeholder
+  password,
+  placeholder,
+  onChangeText,
+  secureTextEntry
   }) => {
     const [hidePassword, setHidePassword] = React.useState(Password);
  
