@@ -1,15 +1,45 @@
+import { useState } from 'react';
 import { View,
   Text,
    SafeAreaView,
     Keyboard,
     StyleSheet,
     Button,
+    useWindowDimensions,
     TouchableOpacity, } from "react-native";
+   import {
+      signInWithEmailAndPassword,
+    } from "firebase/auth";  
 import React from "react";
 import { TextInput } from "react-native";
+import auth from '../firebase.js/firebase';
 import Input from './Input';
 
-const SignIn = () => {
+const SignIn = ({ navigation }) => {
+  const [Email, setEmail] = useState("");
+  const [Password, setPassword] = useState("");
+  const { height } = useWindowDimensions();
+  const handleSignIn = () => {
+    signInWithEmailAndPassword(auth, Email, Password)
+      .then(() => {
+        navigation.navigate("Profile");
+      })
+      .catch((error) => {
+        window.alert(error.message);
+      });
+  };
+  const handleOnSignUpPress = () => {
+    navigation.navigate("Signup");
+  };
+  const handleSignInWithGoogle = () => {
+    window.alert("handleSignInWithGoogle");
+  };
+  const handleSignInWithFacebook = () => {
+    window.alert("handleSignInWithFacebook");
+  };
+  const handleForgetPasswordPress = () => {
+    navigation.navigate("Forget");
+  };
   return (
 <SafeAreaView style={{backgroundColor: '#fff' , flex: 1}}>
 <View style={{paddingTop: 50, paddingHorizontal: 20}}>
@@ -29,23 +59,43 @@ label="Email"
 placeholder="Enter your email address"
 />
 <Input
+
 iconName="lock-outline"
 label="Password"
 placeholder="Enter your password"
-password
+Password
 />
 
 
-
-<TouchableOpacity style={styles.button} >
+<TouchableOpacity style={styles.button} onPress={handleSignIn} >
 <Text style={styles.buttonText}>Sign In</Text>
 </TouchableOpacity>
 
-{/* <Button title="Log In"  /> */}
+<TouchableOpacity        
+ onPress={handleForgetPasswordPress}>
+<Text style={styles.buttonText2}>
+Forget Password ?
+</Text>
+</TouchableOpacity>
 
+<TouchableOpacity 
+style={styles.button1} 
+onPress={handleSignInWithFacebook}>
+<Text style={styles.buttonText}>Sign In With Facebook</Text>
+</TouchableOpacity>
+
+<TouchableOpacity 
+style={styles.button2} 
+onPress={handleSignInWithGoogle}>
+<Text style={styles.buttonText}>Sign In With Google</Text>
+</TouchableOpacity>
+
+<TouchableOpacity        
+onPress={handleOnSignUpPress}>
 <Text style={styles.buttonText2}>
 Don't have account ? Register
 </Text>
+</TouchableOpacity>
 </View>
 </View>
 </SafeAreaView>
@@ -67,6 +117,24 @@ justifyContent: 'center',
 alignItems: 'center',
     activeOpacity : 0.7 ,
   },
+  button1: {
+    height: 55,
+    width: '100%',
+    backgroundColor: '#458ae7',
+    marginVertical: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+        activeOpacity : 0.7 ,
+      },
+      button2: {
+        height: 55,
+        width: '100%',
+        backgroundColor: '#DB4437',
+        marginVertical: 5,
+        justifyContent: 'center',
+        alignItems: 'center',
+            activeOpacity : 0.7 ,
+          },
   buttonText: {
   color:  '#fff',
    fontWeight: 'bold',
@@ -78,6 +146,8 @@ alignItems: 'center',
   fontWeight: 'bold',
   textAlign: 'center',
   fontSize: 16,
+  marginBottom: 20,
+  marginTop: 20,
                     },
 });
 
