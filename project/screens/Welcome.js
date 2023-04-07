@@ -1,33 +1,28 @@
 import { View, Text ,StyleSheet , TouchableOpacity  , ImageBackground } from 'react-native'
 import React from 'react';
-import backgroundImage from '../assets/M.png';
-
+import backgroundImage from '../assets/img/back-ground.jpg';
+import CustomButton from '../component/CustomButton'
 
 
 const Welcome = ({navigation}) => {
   return (
     <View style={styles.container}>
-      
-          
       <ImageBackground source={backgroundImage} style={styles.backgroundImage}>
-          <Text style={styles.Text}>Graceful and </Text>
-          <Text style={styles.Text}>    Stylish</Text>
-          <Text style={styles.Text2}>Furniture for</Text>
-          <Text style={styles.Text2}> Your Home </Text>
-          <View style={styles.buttonContainer}>
-
-      <TouchableOpacity  
-      onPress={() => navigation.navigate('Start')} 
-      style={styles.Button} >
-        <Text style={styles.buttonText}>Get Started</Text>
-      </TouchableOpacity>
-
-         </View>
-         
-          </ImageBackground>
-         
-      </View>
-  )
+        <Text style={styles.Text}>Graceful and </Text>
+        <Text style={styles.Text}> Stylish</Text>
+        <Text style={styles.Text2}>Furniture for</Text>
+        <Text style={styles.Text2}> Your Home </Text>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("Start")}
+            style={styles.Button}
+          >
+            <Text style={styles.buttonText}>Get Started</Text>
+          </TouchableOpacity>
+        </View>
+      </ImageBackground>
+    </View>
+  );
 }
 
 

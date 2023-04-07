@@ -12,7 +12,7 @@ import { View,
     } from "firebase/auth";  
 import React from "react";
 import { TextInput } from "react-native";
-import auth from '../firebase.js/firebase';
+import auth from '../firebase/firebase';
 import Input from './Input';
 
 const SignIn = ({ navigation }) => {
