@@ -1,8 +1,8 @@
 import {  Button, View, Text,StyleSheet,TextInput,ImageBackground,TouchableOpacity} from 'react-native'
 import React, { useState } from 'react'
-import testimg from '../assets/download.jpg';
+import testimg from '../assets/img/download.jpg';
 import { sendPasswordResetEmail } from "firebase/auth";
-import auth from '../firebase.js/firebase';
+import auth from '../firebase/firebase';
 export default function Forget({navigation}){
 const[Email,setEmail]=useState('')
 

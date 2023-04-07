@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { Button, StyleSheet, Text, TextInput, View ,Image,TouchableOpacity } from 'react-native';
 import { useState } from 'react'; 
 import profile from '../assets/profile.jpg';
-import auth from '../firebase.js/firebase';
+import auth from '../firebase/firebase';
 import { signOut } from "firebase/auth";
 
 export default function Profile({navigation}) {

@@ -6,7 +6,7 @@ import {
   signInWithRedirect,
   getRedirectResult,
 } from "firebase/auth";
-import auth from '../firebase.js/firebase';
+import auth from '../firebase/firebase';
 import React from 'react';
 import {
     View,

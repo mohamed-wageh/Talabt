@@ -1,6 +1,11 @@
-import { View, Text, useWindowDimensions, Image } from "react-native";
-import React from "react";
-import backGround from "../assets/img/back-ground.jpg";
+import {
+  View,
+  Text,
+  useWindowDimensions,
+  Image,
+} from "react-native";
+import React from 'react'
+import backGround from '../assets/img/back-ground.jpg'
 import CustomButton from "../component/CustomButton";
 import { globalStyles } from "../styles/global";
 const Test = ({ navigation }) => {
@@ -34,4 +39,4 @@ const Test = ({ navigation }) => {
   );
 };
 
-export default Test;
+export default Test
