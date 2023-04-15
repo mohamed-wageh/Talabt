@@ -4,6 +4,8 @@ export const globalStyles = StyleSheet.create({
   main: {
     flex: 1,
     backgroundColor: COLORS.light,
+    fontFamily: "Nunito-Bold",
+    height:"100%"
   },
   container: {
     padding: 20,
@@ -11,15 +13,17 @@ export const globalStyles = StyleSheet.create({
   },
   title: {
     fontWeight: "bold",
-    fontSize: 30,
+    fontSize: 32,
     color: COLORS.black,
+    fontFamily: "Nunito-Bold",
   },
   text: {
-    fontSize: 20,
+    fontSize: 16,
     marginVertical: 10,
     color: COLORS.grey,
+    fontFamily: "Nunito-Regular",
   },
-  logo:{
-    width:"100%"
-  }
+  logo: {
+    width: "100%",
+  },
 });

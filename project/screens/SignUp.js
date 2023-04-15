@@ -18,7 +18,7 @@ import {
        TouchableOpacity,
         Alert, 
     } from 'react-native';
-    import Input from './Input';
+    import Input from '../component/Input';
 
     const SignUp = ({navigation}) => {
       const [Email, setEmail] = useState("");
