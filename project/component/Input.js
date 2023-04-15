@@ -37,7 +37,7 @@ const Input = ({
         />
         {Password && (
         <Icon
-         onPress={() => setHidePassword(!hidePassword)}
+        onPress={() => setHidePassword(!hidePassword)}
         style={{color:  '#7978B5', fontSize: 22}}
         name={hidePassword ? 'eye-outline' : 'eye-off-outline'}/>
         )}

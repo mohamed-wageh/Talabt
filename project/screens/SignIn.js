@@ -13,7 +13,7 @@ import { View,
 import React from "react";
 import { TextInput } from "react-native";
 import auth from '../firebase/firebase';
-import Input from './Input';
+import Input from '../component/Input';
 
 const SignIn = ({ navigation }) => {
   const [Email, setEmail] = useState("");
