@@ -17,7 +17,7 @@ import { globalStyles } from "../styles/global";
 import COLORS from "../constant/colors";
 import furnitures from '../model/data'
 const {width} = Dimensions.get('screen')
-const Home = () => {
+const Home = ({ navigation }) => {
   const ListCategories = () => {
     const categoryItems = [
       { name: "Chair", iconName: "seat-outline" },
@@ -39,9 +39,7 @@ const Home = () => {
                 style.categoryItemBtn,
                 {
                   backgroundColor:
-                    selectedCategoryIndex == index
-                      ? COLORS.blue
-                      : COLORS.light,
+                    selectedCategoryIndex == index ? COLORS.blue : COLORS.light,
                 },
               ]}
             >
@@ -73,9 +71,7 @@ const Home = () => {
   };
   const Card = ({ furniture }) => {
     return (
-      <Pressable
-        onPress={() => navigation.navigate("DetailsScreen", furniture)}
-      >
+      <Pressable onPress={() => navigation.navigate("Details", furniture)}>
         <View style={style.card}>
           <View style={style.iconContainer}>
             <Icon
@@ -108,34 +104,36 @@ const Home = () => {
   };
   const PopularItemCard = ({ furniture }) => {
     return (
-      <View style={style.popularItemCard}>
-        <View style={style.iconContainer}>
-          <Icon
-            name="heart"
-            color={furniture.liked ? COLORS.red : COLORS.blue}
+      <Pressable onPress={() => navigation.navigate("Details", furniture)}>
+        <View style={style.popularItemCard}>
+          <View style={style.iconContainer}>
+            <Icon
+              name="heart"
+              color={furniture.liked ? COLORS.red : COLORS.blue}
+            />
+          </View>
+          <Image
+            source={furniture.image}
+            style={{
+              width: 100,
+              height: "100%",
+              borderTopLeftRadius: 10,
+              borderBottomLeftRadius: 10,
+              marginRight: 10,
+            }}
           />
-        </View>
-        <Image
-          source={furniture.image}
-          style={{
-            width: 100,
-            height: "100%",
-            borderTopLeftRadius: 10,
-            borderBottomLeftRadius: 10,
-            marginRight: 10,
-          }}
-        />
-        <View style={{ paddingVertical: 15, justifyContent: "center" }}>
-          <Text style={style.cardName}>{furniture.name}</Text>
-          <View style={{ flexDirection: "row", marginTop: 10 }}>
-            <Text style={style.price}>{furniture.price}</Text>
-            <View style={{ flexDirection: "row", marginLeft: 10 }}>
-              <Icon name="star" color={COLORS.yellow} size={18} />
-              <Text style={style.rating}>4.3</Text>
+          <View style={{ paddingVertical: 15, justifyContent: "center" }}>
+            <Text style={style.cardName}>{furniture.name}</Text>
+            <View style={{ flexDirection: "row", marginTop: 10 }}>
+              <Text style={style.price}>{furniture.price}</Text>
+              <View style={{ flexDirection: "row", marginLeft: 10 }}>
+                <Icon name="star" color={COLORS.yellow} size={18} />
+                <Text style={style.rating}>4.3</Text>
+              </View>
             </View>
           </View>
         </View>
-      </View>
+      </Pressable>
     );
   };
   return (
@@ -183,7 +181,7 @@ const Home = () => {
       </ScrollView>
     </SafeAreaView>
   );
-}
+};
 const style = StyleSheet.create({
   header: {
     paddingVertical: 20,

@@ -9,6 +9,7 @@ import Forget from "../screens/forget";
 import Home from "../screens/home";
 import Details from "../screens/detailsScreen";
 import COLORS from "../constant/colors";
+import tabNavigator from "./tabNavigator";
 
 export default function App() {
   const Stack = createNativeStackNavigator();
@@ -25,7 +26,7 @@ export default function App() {
           <Stack.Screen name="Signup" component={SignUp} />
           <Stack.Screen name="Forget" component={Forget} />
           {/* <Stack.Screen name="Profile" component={Profile} /> */}
-          <Stack.Screen name="Home" component={Home} />
+          <Stack.Screen name="Home" component={tabNavigator} />
           <Stack.Screen name="Details" component={Details} />
         </Stack.Navigator>
       </NavigationContainer>
