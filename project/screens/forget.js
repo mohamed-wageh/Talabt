@@ -1,93 +1,105 @@
-import {  Button, View, Text,StyleSheet,TextInput,ImageBackground,TouchableOpacity} from 'react-native'
+import { card,Alert,useWindowDimensions, SafeAreaView,Button, View, Text,StyleSheet,TextInput,ImageBackground,TouchableOpacity} from 'react-native'
 import React, { useState } from 'react'
-import testimg from '../assets/img/download.jpg';
 import { sendPasswordResetEmail } from "firebase/auth";
 import auth from '../firebase/firebase';
+import Input from './Input';
+import COLORS from '../constant/colors';
+import CustomButton from '../component/CustomButton';
 export default function Forget({navigation}){
 const[Email,setEmail]=useState('')
+const[CheckValidEmail,setCheckValidEmail]=useState(false)
+const handleCheckEmail=(Text)=>{
+let re = /\S+@\S +\.\S+/;
+let regex = re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+ setEmail(Text);
+ if(re.test(Text)|| regex.test(Text)){
+  setCheckValidEmail(false);
+ }else{
+  setCheckValidEmail(true);
+ }
+};
 
-const handleSignIn = () => {
-    
-      navigation.navigate("SignIn");
-}
+const handleOnSignInPress = () => {
+  navigation.navigate("SignIn");
+};
+
 const handleForgotPassword= () => {
 sendPasswordResetEmail(auth, Email)
   .then(() => {
-    console.log("password sent")
+    window.alert("link sent")
     // Password reset email sent!
+
     // ..
   })
   .catch((error) => {
     const errorCode = error.code;
     const errorMessage = error.message;
-    console.log("Email doesn't Exist")
+    window.alert("Email doesn't exist")
     // ..
   });
 }
-  return (
-    <View style={styles.Container}>
-      <ImageBackground source={testimg} style={styles.backgroundimage}/>
-      <Text style={styles.title}>Enter your email below and we'll help you to reset your password</Text>
-      <TextInput style={styles.input}
-      placeholder='   E-mail'
-      value={Email}
-      onChangeText={setEmail}
-      />
-  <TouchableOpacity style={styles.button} onPress={handleForgotPassword}>
-            <Text style={styles.buttonText}>Send Link</Text>          
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={handleSignIn}>
-            <Text style={styles.buttonText}>Back to Sign in</Text>
-                  
-          </TouchableOpacity>
-          
-    </View>
-  );
-}
-const styles = StyleSheet.create({
-  Container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    margin:20,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  input:{
-width:'90%',
-height:50,
-margin:10,
-borderWidth:2,
-borderRadius: 10,
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '80%',
-    
-  },
-  button: {
-    backgroundColor: 'black',
-    padding: 10,
-    borderRadius: 10,
-    marginTop: 50,
-    width:'40%',
-    borderwidth: 5,
-    alignItems: 'center',
-  },
+return (
+  <SafeAreaView style={{backgroundColor: COLORS.white , flex: 1}}>
+  <View style={{paddingTop: 50, paddingHorizontal: 20}}>
+  <Text style={{color: COLORS.black, fontSize: 35, fontWeight: 'bold', marginVertical: 10}}>
+  Forget password!!
+  </Text>
+  <Text style={{color: COLORS.grey, fontSize: 18, marginVertical: 10}}>
+  don't worry sir we'll help you to reset your password
+  </Text>
+  <View style={{marginVertical: 10}}>
   
-  buttonText: {
-    color: 'cyan',
-    fontWeight: 'bold',
-  },
-  backgroundimage:{
-width:200,
-height:200,
-bottom:'5%',
-  },
-  title:{
-    fontSize:12,
-    fontWeight:'bold',
-    marginBottom:10,
-    color:'rgba(0,0,0,0.5)',
-  },
-});
+  
+  
+  <Input
+  iconName="email-outline"
+  
+  placeholder="Enter your email address"
+  onChangeText={Text => handleCheckEmail(Text)}
+  />
+  {CheckValidEmail ? (<Text style={styles.Textfailed}>wrong format Email</Text>) : (
+  <Text style={styles.Textfailed}> </Text>)}
+   <CustomButton text="Send Link" bgColor={COLORS.hex} onPress={handleForgotPassword}/>
+   <CustomButton text="Back to Sign in"  type='Link' bgColor={COLORS.white} txColor={COLORS.hex} onPress={handleOnSignInPress}/>
+  </View>
+  </View>
+  </SafeAreaView>
+  
+  );
+  
+  
+  
+  };
+  
+  
+  const styles = StyleSheet.create({
+  button: {
+    height: 55,
+width: '100%',
+marginVertical: 30,
+justifyContent: 'center',
+alignItems: 'center',
+    activeOpacity : 0.7 ,
+    backgroundColor:'#81d4fa',
+    },
+        Textfailed:{
+      color:'red',
+      fontWeight: 'bold',
+      fontSize: 15,
+        },
+      
+    buttonText: {
+    color:  '#fff',
+     fontWeight: 'bold',
+      fontSize: 18,
+      textAlign: 'center',
+            },
+            buttonText2: {
+              color: '#81d4fa',
+              fontWeight: 'bold',
+              textAlign: 'center',
+              fontSize: 22,
+              marginBottom: 50,
+              marginTop: 70,          
+                                },
+  });
