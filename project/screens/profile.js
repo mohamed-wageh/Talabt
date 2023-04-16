@@ -1,6 +1,9 @@
-// 
-import { View, Text } from 'react-native'
-import React from 'react'
+import { StatusBar } from 'expo-status-bar';
+import { Button, StyleSheet, Text, TextInput, View ,Image,TouchableOpacity } from 'react-native';
+import { useState } from 'react'; 
+import profile from '../assets/profile.jpg';
+import auth from '../firebase/firebase';
+import { signOut } from "firebase/auth";
 
 export default function Profile({navigation}) {
     const [email, setEmail] =useState('');
@@ -92,7 +95,7 @@ const handleEditProfile = () => {
     );
   }
   
-const styles = StyleSheet.create({
+  const styles = StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: '#fff',

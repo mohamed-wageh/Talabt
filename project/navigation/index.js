@@ -11,6 +11,10 @@ import Details from "../screens/detailsScreen";
 import COLORS from "../constant/colors";
 import tabNavigator from "./tabNavigator";
 import EditProfile from "../screens/EditProfile";
+import Start from "../screens/Start";
+import Profile from "../screens/profile";
+import Test from "../screens/test";
+
 
 
 export default function App() {
@@ -24,9 +28,10 @@ export default function App() {
         <Stack.Screen name="Start" component={Start} />
         <Stack.Screen name="Welcome" component={Welcome} />
         <Stack.Screen name="SignIn" component={SignIn} />
-        <Stack.Screen name="Signup" component={Signup} />
+        <Stack.Screen name="SignUp" component={SignUp} />
         <Stack.Screen name="Forget" component={Forget} />
         <Stack.Screen name="Profile" component={Profile} />
+        <Stack.Screen name="EditProfile" component={EditProfile} />
         <Stack.Screen name="Test" component={Test} />
       </Stack.Navigator>
     </NavigationContainer>
