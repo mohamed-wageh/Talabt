@@ -5,7 +5,7 @@ import profile from '../assets/profile.jpg';
 import auth from '../firebase/firebase';
 import { signOut } from "firebase/auth";
 
-export default function Profile({navigation}) {
+export default function Profile ({navigation}) {
     const [email, setEmail] =useState('');
     const [password, setPassword] = useState('');
     const handleSignOut = () => {
@@ -22,14 +22,8 @@ export default function Profile({navigation}) {
 }
 
 const handleEditProfile = () => {
- 
-
       navigation.navigate("EditProfile");
-   
-  
 }
-
-
      return (
       <View style={styles.container}>
 
@@ -171,6 +165,5 @@ const handleEditProfile = () => {
         textinputContainer:{
             margin:25,
             left:10,
-        },
-      
+        },  
 });
