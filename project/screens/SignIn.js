@@ -140,7 +140,7 @@ const SignIn = ({ navigation }) => {
             // onChangeText={text => handleOnchange(text, 'password')}
             password
           />
-           {(errors.password && touched.password)&&
+          {(errors.password && touched.password)&&
           <Text style={styles.errors}>{errors.password}</Text>
           }
         </View>
@@ -149,9 +149,9 @@ const SignIn = ({ navigation }) => {
           </TouchableOpacity>
           <CustomButton
           disabled={!isValid}
-           text={"Login"}
-           onPress={handleSubmit}
-           />
+          text={"Login"}
+          onPress={handleSubmit}
+          />
           <TouchableOpacity onPress={handleOnSignUpPress}>
             <Text style={[styles.buttonText2,{marginTop:"100%"}]}>
               Don't have account ?<Text   style={{ color: COLORS.blue }}> Register</Text>
