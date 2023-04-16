@@ -22,14 +22,14 @@ import {
 
     const SignUp = ({navigation}) => {
       const [Email, setEmail] = useState("");
-      const [Name, setName] = useState("");
+      const [FirstName, setFirstName] = useState("");
       const [Password, setPassword] = useState("");
-      const [PasswordRepeat, setPasswordRepeat] = useState("");
-      const [Phone, setPhone] = useState("");
+      const [PasswordConfirm, setPasswordConfirm] = useState("");
+      // const [Phone, setPhone] = useState("");
       
       const provider = new GoogleAuthProvider();
       const handleRegister = () => {
-        if (Password === PasswordRepeat) {
+        if (Password === PasswordConfirm) {
           createUserWithEmailAndPassword(auth, Email, Password)
             .then((userCredential) => {
               const user = userCredential.user;
@@ -94,10 +94,10 @@ import {
       return (
         <SafeAreaView style={{backgroundColor: '#fff' , flex: 1}}>
           <View style={{paddingTop: 50, paddingHorizontal: 20}}>
-      <Text style={{color: '#000', fontSize: 40, fontWeight: 'bold'}}>
-      Register
+      <Text style={{color: '#000', fontSize: 30, fontWeight: 'bold'}}>
+      Create An Account
       </Text>
-      <Text style={{color: '#BABBC3', fontSize: 18, marginVertical: 10}}>
+      <Text style={{color: '#BABBC3', fontSize: 18, marginVertical: 10, marginHorizontal:15}}>
       Enter Your Details to Register
       </Text>
       <View style={{marginVertical: 55}}>
@@ -112,32 +112,33 @@ import {
           />
           <Input
                  iconName="account-outline"
-                 label="Full Name"
-                 placeholder="Enter your full name"
+                 label="First Name"
+                 placeholder="Enter your first name"
                  value={Name}
                  onChangeText={setName}
           />
-           <Input
+          
+           {/* <Input
                     iconName="phone-outline"
                     label="Phone Number"
-                    placeholder="Enter your phone no"
+                    placeholder="Enter your phone number"
                     value={Phone}
                     onChangeText={setPhone}
-          />
+          /> */}
           <Input
             iconName="lock-outline"
             label="Password"
-            placeholder="Enter your Password"
+            placeholder="Enter your password"
              secureTextEntry={true}
              onChangeText={setPassword}
              Password
           />
  <Input
             iconName="lock-outline"
-            label="PasswordRepeat"
-            placeholder="Enter your Password Repeat"
+            label="Password Confirm"
+            placeholder="Confirm your password "
              secureTextEntry={true}
-             onChangeText={setPasswordRepeat}
+             onChangeText={setPasswordConfirm}
              Password
           />
 
@@ -166,7 +167,7 @@ import {
       button: {
         height: 55,
         width: '100%',
-        backgroundColor: '#B57EDC',
+        backgroundColor: '#6c9cf9',
         marginTop:20, marginBottom:20,
         justifyContent: 'center',
         alignItems: 'center',

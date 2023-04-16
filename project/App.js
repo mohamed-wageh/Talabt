@@ -1,16 +1,23 @@
-import { View, Text } from 'react-native'
-import "react-native-gesture-handler";
 import React from 'react';
 import Index from './navigation';
-import { useFonts } from "expo-font";
-
 function App() {
   const [fontsLoaded] = useFonts({
     "Nunito-Regular": require("./assets/font/Nunito-Regular.ttf"),
     "Nunito-Bold": require("./assets/font/Nunito-Bold.ttf"),
   });
   return (
-    <Index/>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="SignUpPage"   screenOptions={{ headerShown: false }}>
+        <Stack.Screen
+          name="Home"
+          component={SignUpPage}
+
+        />
+        <Stack.Screen name="SignUpPage" component={SignUpPage}  />
+        {/* <Stack.Screen name="Welcome" component={Welcome} /> */}
+
+       </Stack.Navigator>
+        </NavigationContainer>
   );
 }
 
