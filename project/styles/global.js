@@ -3,7 +3,7 @@ import COLORS from "../constant/colors";
 export const globalStyles = StyleSheet.create({
   main: {
     flex: 1,
-    backgroundColor: COLORS.light,
+    backgroundColor: COLORS.white,
   },
   container: {
     padding: 20,
@@ -11,11 +11,11 @@ export const globalStyles = StyleSheet.create({
   },
   title: {
     fontWeight: "bold",
-    fontSize: 30,
+    fontSize: 32,
     color: COLORS.black,
   },
   text: {
-    fontSize: 20,
+    fontSize: 16,
     marginVertical: 10,
     color: COLORS.grey,
   },

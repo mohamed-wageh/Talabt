@@ -16,7 +16,7 @@ const index = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Test"
+        initialRouteName="SignIn"
         screenOptions={{ headerShown: false }}
       >
         <Stack.Screen name="Start" component={Start} />
