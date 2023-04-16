@@ -45,9 +45,9 @@ const styles = StyleSheet.create({
   },
   container_Link: {},
   text: {
-    fontWeight: "bold",
     color: "white",
     fontSize: 15,
+    fontFamily: "Nunito-Bold",
   },
   text_Link: {
     color: "#3a3967",
