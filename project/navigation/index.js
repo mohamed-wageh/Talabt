@@ -22,7 +22,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="SignUp"
+        initialRouteName="SignIn"
         screenOptions={{ headerShown: false }}
       >
         <Stack.Screen name="Home" component={tabNavigator} />

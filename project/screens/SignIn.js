@@ -13,7 +13,7 @@ import {
 
 import React from "react";
 import { TextInput } from "react-native";
-import auth from "../firebase/firebase";
+import { auth, db } from "../firebase/firebase";
 import Input from "../component/Input";
 import COLORS from "../constant/colors";
 import { globalStyles } from "../styles/global";

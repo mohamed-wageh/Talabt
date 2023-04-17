@@ -7,8 +7,8 @@ import {
   getRedirectResult,
 } from "firebase/auth";
 import Loader from "../component/Loader";
-
-import auth from "../firebase/firebase";
+import { collection, addDoc, doc, setDoc } from "firebase/firestore"; 
+import { auth ,db} from "../firebase/firebase";
 import React from "react";
 import {
   View,
@@ -19,6 +19,7 @@ import {
   Button,
   TouchableOpacity,
   Alert,
+  DatePickerIOS,
 } from "react-native";
 import Input from "../component/Input";
 
@@ -42,8 +43,8 @@ const SignUp = ({ navigation }) => {
         createUserWithEmailAndPassword(auth, Email, Password)
           .then((userCredential) => {
             const user = userCredential.user;
-            window.alert(auth.currentUser.displayName);
-            
+            window.alert("Account created");
+            addUserToDatabase(user.uid);
           })
           .catch((error) => {
             window.alert(error.message);
@@ -90,6 +91,18 @@ const SignUp = ({ navigation }) => {
   const handleForgetPassword = () => {
     navigation.navigate("Forget");
   };
+  const addUserToDatabase = async (uid) => {
+    try {
+      const docRef = await setDoc(doc(db, "users", uid), {
+        email:Email,
+        FirstName:FirstName,
+        LastName:LastName,
+        Phone:Phone,
+      });
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+  };
   return (
     <SafeAreaView style={{ backgroundColor: "#fff", flex: 1 }}>
       <Loader visible={loading} />
@@ -122,9 +135,9 @@ const SignUp = ({ navigation }) => {
           />
           <Input
             iconName="account-outline"
-            placeholder="Enter your first name"
-            value={FirstName}
-            onChangeText={setFirstName}
+            placeholder="Enter your LastName"
+            value={LastName}
+            onChangeText={setLastName}
           />
 
           <Input

@@ -1,6 +1,6 @@
 import { View, Text ,StyleSheet , TouchableOpacity  , ImageBackground } from 'react-native'
 import React from 'react';
-import backgroundImage from '../assets/N.png';
+// import backgroundImage from '../assets/N.png';
 
 
 
