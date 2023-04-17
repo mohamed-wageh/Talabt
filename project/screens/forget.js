@@ -5,7 +5,7 @@ import auth from '../firebase/firebase';
 import Input from '../component/Input';
 import COLORS from '../constant/colors';
 import CustomButton from '../component/CustomButton';
-export default function forget({navigation}){
+export default function Forget({navigation}){
 const[Email,setEmail]=useState('')
 const[CheckValidEmail,setCheckValidEmail]=useState(false)
 const handleCheckEmail=(Text)=>{

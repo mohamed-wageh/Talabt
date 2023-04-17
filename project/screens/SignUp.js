@@ -23,6 +23,8 @@ import {
     const SignUp = ({navigation}) => {
       const [Email, setEmail] = useState("");
       const [FirstName, setFirstName] = useState("");
+      const [LastName, setLastName] = useState("");
+      const [Phone, setPhone] = useState("");
       const [Password, setPassword] = useState("");
       const [PasswordConfirm, setPasswordConfirm] = useState("");
       // const [Phone, setPhone] = useState("");
@@ -105,29 +107,31 @@ import {
 
       <Input
             iconName="email-outline"
-            label="Email"
             placeholder="Enter your email address"
             value={Email}
             onChangeText={setEmail}
           />
           <Input
                  iconName="account-outline"
-                 label="First Name"
                  placeholder="Enter your first name"
-                 value={Name}
-                 onChangeText={setName}
+                 value={FirstName}
+                 onChangeText={setFirstName}
+          />
+          <Input
+                 iconName="account-outline"
+                 placeholder="Enter your first name"
+                 value={FirstName}
+                 onChangeText={setFirstName}
           />
           
-           {/* <Input
+           <Input
                     iconName="phone-outline"
-                    label="Phone Number"
                     placeholder="Enter your phone number"
                     value={Phone}
                     onChangeText={setPhone}
-          /> */}
+          />
           <Input
             iconName="lock-outline"
-            label="Password"
             placeholder="Enter your password"
              secureTextEntry={true}
              onChangeText={setPassword}
@@ -135,7 +139,6 @@ import {
           />
  <Input
             iconName="lock-outline"
-            label="Password Confirm"
             placeholder="Confirm your password "
              secureTextEntry={true}
              onChangeText={setPasswordConfirm}
