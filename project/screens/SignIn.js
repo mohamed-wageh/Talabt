@@ -8,7 +8,7 @@ import {
   Button,
   useWindowDimensions,
   TouchableOpacity,
-  Alert, 
+  Alert,  
 } from "react-native";
 
 import React from "react";
@@ -22,7 +22,8 @@ import {AsyncStorage} from 'react-native';
 import CustomButton from "../component/CustomButton";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { signInWithEmailAndPassword } from "firebase/auth";
-
+import { Formik, Form, Field } from 'formik';
+import * as yup from 'yup';
 
 const SignIn = ({ navigation }) => {
   const [Email, setEmail] = useState("");
@@ -32,29 +33,35 @@ const SignIn = ({ navigation }) => {
   const [errors, setErrors] = React.useState({});
   const [loading, setLoading] = React.useState(false);
 
-  const validate = async () => {
-    Keyboard.dismiss();
-    let isValid = true;
-    if (!inputs.email) {
-      handleError('Please input email', 'email');
-      isValid = false;
-    }
-    if (!inputs.password) {
-      handleError('Please input password', 'password');
-      isValid = false;
-    }
-    if (isValid) {
-      handleSignIn();
-    }
-  };
+  // const validate = async () => {
+  //   Keyboard.dismiss();
+  //   let isValid = true;
+  //   if (!inputs.email) {
+  //     handleError('Please input email', 'email');
+  //     isValid = false;
+  //   }
+  //   if (!inputs.password) {
+  //     handleError('Please input password', 'password');
+  //     isValid = false;
+  //   }
+  //   if (isValid) {
+  //     handleSignIn();
+  //   }
+  // };
 
-  const handleSignIn = () => {
+  const SignInvalidattion =yup.object().shape({
+    email:yup.string().email('please enter valid email').required('Email address is required'),
+    password:yup.string().min(6,({min})=> 'password must be  6 characters').required('password is required') 
+
+  })
+  const handleSignIn = (Email,Password) => {
     setLoading(true);
     setTimeout(async () => {
       setLoading(false);
     signInWithEmailAndPassword(auth, Email, Password)
       .then(() => {
-        navigation.navigate("Profile");
+        navigation.navigate("Home");
+        console.log("done")
         
       })
       .catch((error) => {
@@ -75,14 +82,22 @@ const SignIn = ({ navigation }) => {
   const handleForgetPasswordPress = () => {
     navigation.navigate("Forget");
   };
-  const handleOnchange = (text, input) => {
-    setInputs(prevState => ({...prevState, [input]: text}));
-  };
+  // const handleOnchange = (text, input) => {
+  //   setInputs(prevState => ({...prevState, [input]: text}));
+  // };
 
-  const handleError = (error, input) => {
-    setErrors(prevState => ({...prevState, [input]: error}));
-  };
+  // const handleError = (error, input) => {
+  //   setErrors(prevState => ({...prevState, [input]: error}));
+  // };
   return (
+    <Formik
+    initialValues={{ email: '' ,password:''}}
+    validateOnMount={true}
+    onSubmit={values => handleSignIn(values.email,values.password)}
+    validationSchema={SignInvalidattion}
+  >
+     {({ handleChange, handleBlur, handleSubmit, values,touched,errors, isValid }) => (
+
     <SafeAreaView style={{ backgroundColor: COLORS.white, flex: 1 }}>
       <Loader visible={loading} />
       <View style={globalStyles.container}>
@@ -98,27 +113,45 @@ const SignIn = ({ navigation }) => {
         </View>
         <View style={{width:"100%"}}>
         <Input
-            onFocus={() => handleError(null, 'email')}
+         onChangeText={handleChange('email')}
+         onBlur={handleBlur('email')}
+         value={values.email}
+
+            // onFocus={() => handleError(null, 'email')}
             iconName="email-outline"
             // label="Email"
             placeholder="Enter your email address"
-            error={errors.email}
-            onChangeText={setEmail}
+            // error={errors.email}
+            // onChangeText={text => handleOnchange(text, 'email')}
           />
+          {(errors.email && touched.email)&&
+          <Text style={styles.errors}>{errors.email}</Text>
+          }
+          
           <Input
-            onFocus={() => handleError(null, 'password')}
+           onChangeText={handleChange('password')}
+           onBlur={handleBlur('password')}
+           value={values.password}
+            // onFocus={() => handleError(null, 'password')}
             iconName="lock-outline"
             // label="Password"
             placeholder="Enter your password"
-            error={errors.password}
-            onChangeText={setPassword}
+            // error={errors.password}
+            // onChangeText={text => handleOnchange(text, 'password')}
             password
           />
+           {(errors.password && touched.password)&&
+          <Text style={styles.errors}>{errors.password}</Text>
+          }
         </View>
           <TouchableOpacity onPress={handleForgetPasswordPress}>
             <Text style={[styles.buttonText2,{right:0}]}>Forget Password ?</Text>
           </TouchableOpacity>
-          <CustomButton text={"Login"} onPress={validate}/>
+          <CustomButton
+          disabled={!isValid}
+           text={"Login"}
+           onPress={handleSubmit}
+           />
           <TouchableOpacity onPress={handleOnSignUpPress}>
             <Text style={[styles.buttonText2,{marginTop:"100%"}]}>
               Don't have account ?<Text   style={{ color: COLORS.blue }}> Register</Text>
@@ -127,6 +160,8 @@ const SignIn = ({ navigation }) => {
 
       </View>
     </SafeAreaView>
+    )}
+    </Formik>
   );
 };
 
@@ -171,6 +206,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 15,
     marginTop: 15,
+  },
+  errors:{
+    color: COLORS.red,
+     fontSize: 12,
   },
 });
 
