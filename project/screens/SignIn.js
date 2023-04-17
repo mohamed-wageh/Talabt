@@ -64,7 +64,7 @@ const SignIn = ({ navigation }) => {
     }, 3000);
   };
   const handleOnSignUpPress = () => {
-    navigation.navigate("Signup");
+    navigation.navigate("SignUp");
   };
   const handleSignInWithGoogle = () => {
     window.alert("handleSignInWithGoogle");

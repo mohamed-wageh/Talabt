@@ -22,7 +22,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Test"
+        initialRouteName="SignUp"
         screenOptions={{ headerShown: false }}
       >
         <Stack.Screen name="Start" component={Start} />

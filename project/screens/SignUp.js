@@ -5,12 +5,13 @@ import {
   GoogleAuthProvider,
   signInWithRedirect,
   getRedirectResult,
+  signUpWithPopup,
 } from "firebase/auth";
 import auth from '../firebase/firebase';
 import React from 'react';
 import {
-    View,
-     Text,
+      View,
+      Text,
       SafeAreaView,
        Keyboard,
        StyleSheet,
@@ -19,21 +20,47 @@ import {
         Alert, 
     } from 'react-native';
     import Input from '../component/Input';
+    import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+    import COLORS from "../constant/colors";
+    import { globalStyles } from "../styles/global";
+    import CustomButton from "../component/CustomButton";
 
     const SignUp = ({navigation}) => {
       const [Email, setEmail] = useState("");
       const [FirstName, setFirstName] = useState("");
+      const [LastName, setLastName] = useState("");
       const [Password, setPassword] = useState("");
       const [PasswordConfirm, setPasswordConfirm] = useState("");
-      // const [Phone, setPhone] = useState("");
-      
+      const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+
       const provider = new GoogleAuthProvider();
+      // signInWithPopup(auth, provider)
+      // .then((result) => {
+      //   // This gives you a Google Access Token. You can use it to access the Google API.
+      //   const credential = GoogleAuthProvider.credentialFromResult(result);
+      //   const token = credential.accessToken;
+      //   // The signed-in user info.
+      //   const user = result.user;
+      //   // IdP data available using getAdditionalUserInfo(result)
+      //   // ...
+      // }).catch((error) => {
+      //   // Handle Errors here.
+      //   const errorCode = error.code;
+      //   const errorMessage = error.message;
+      //   // The email of the user's account used.
+      //   const email = error.customData.email;
+      //   // The AuthCredential type that was used.
+      //   const credential = GoogleAuthProvider.credentialFromError(error);
+      //   // ...
+      // });
+    
+
+
       const handleRegister = () => {
         if (Password === PasswordConfirm) {
           createUserWithEmailAndPassword(auth, Email, Password)
             .then((userCredential) => {
               const user = userCredential.user;
-              window.alert(auth.currentUser.displayName);
               updateProfile(auth.currentUser, {
                 displayName: Name,
                 phoneNumber:Phone,
@@ -91,31 +118,62 @@ import {
       const handleForgetPassword = () => {
         navigation.navigate("Forget");
       };
+
+
+      function registerUser() {
+        if (Email === "" || Password === "") {
+          alert("Email or password or username is empty");
+        } else if (!emailPattern.test(Email)) {
+          alert("Please use a real email");
+        }
+        else if (Password !== PasswordConfirm) {
+          alert("Passwords doesn't match");
+        }
+        else {
+          
+            handleRegister();
+          
+        }
+      }
+
       return (
         <SafeAreaView style={{backgroundColor: '#fff' , flex: 1}}>
           <View style={{paddingTop: 50, paddingHorizontal: 20}}>
-      <Text style={{color: '#000', fontSize: 30, fontWeight: 'bold'}}>
+      {/* <Text style={{color: '#000', fontSize: 30, fontWeight: 'bold'}}>
       Create An Account
       </Text>
       <Text style={{color: '#BABBC3', fontSize: 18, marginVertical: 10, marginHorizontal:15}}>
       Enter Your Details to Register
+      </Text> */}
+      <Text style={[globalStyles.title,{marginLeft:60}]}>
+      Create An Account
       </Text>
-      <View style={{marginVertical: 55}}>
-
+        <Text style={[globalStyles.text,{marginLeft:90}]}>
+        Enter Your Details to Register
+        </Text>
+      <View style = {[{flexDirection:"row"},{marginTop:50},{marginBottom:15},{marginLeft:100}]}>
+          <Icon name="sofa-single" size={32} color={COLORS.blue} style={{marginTop:5}} />
+          <Text style={[globalStyles.title,{marginHorizontal:10}]}>Cabinup</Text>
+        </View>
+        <View style={{width:"100%"}}>
 
       <Input
             iconName="email-outline"
-            label="Email"
             placeholder="Enter your email address"
             value={Email}
             onChangeText={setEmail}
           />
           <Input
                  iconName="account-outline"
-                 label="First Name"
                  placeholder="Enter your first name"
-                 value={Name}
-                 onChangeText={setName}
+                 value={FirstName}
+                 onChangeText={setFirstName}
+          />
+           <Input
+                 iconName="account-outline"
+                 placeholder="Enter your last name"
+                 value={LastName}
+                 onChangeText={setLastName}
           />
           
            {/* <Input
@@ -127,7 +185,6 @@ import {
           /> */}
           <Input
             iconName="lock-outline"
-            label="Password"
             placeholder="Enter your password"
              secureTextEntry={true}
              onChangeText={setPassword}
@@ -135,21 +192,36 @@ import {
           />
  <Input
             iconName="lock-outline"
-            label="Password Confirm"
             placeholder="Confirm your password "
              secureTextEntry={true}
              onChangeText={setPasswordConfirm}
              Password
           />
 
-<TouchableOpacity style={styles.button} onPress={handleRegister} >
+{/* <TouchableOpacity style={styles.button} onPress={handleRegister} >
            <Text style={styles.buttonText}>Sign Up</Text>
-         </TouchableOpacity>
+         </TouchableOpacity> */}
 
-          <TouchableOpacity   onPress={handleOnSignInPress}>
+         <CustomButton    
+         text={"Create Account"}
+         onPress={registerUser}
+
+        //  onPress={() => registerUser()}
+         />
+
+         {/* <Icon
+          name={google}
+          style={{color: COLORS.darkBlue, fontSize: 22, marginRight: 10}}
+        /> */}
+          {/* <TouchableOpacity   onPress={handleOnSignInPress}>
           <Text style={styles.buttonText2}>
           Already have account ? Login
           </Text>
+          </TouchableOpacity> */}
+          <TouchableOpacity onPress={handleOnSignInPress}>
+            <Text style={[styles.buttonText2,{marginTop:"30%"}]}>
+            Already have account ? <Text   style={{ color: COLORS.blue }}> Login</Text>
+            </Text>
           </TouchableOpacity>
           </View>
           </View>
@@ -157,8 +229,6 @@ import {
 
         );
 
-
-    
     };
     export default SignUp;
 
