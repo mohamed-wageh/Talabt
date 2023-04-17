@@ -11,6 +11,10 @@ import Loader from "../component/Loader";
 import { collection, addDoc, doc, setDoc } from "firebase/firestore"; 
 import { auth ,db} from "../firebase/firebase";
 import React from "react";
+import { globalStyles } from "../styles/global";
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import COLORS from "../constant/colors";
+
 import {
   View,
   Text,
@@ -23,12 +27,15 @@ import {
   DatePickerIOS,
 } from "react-native";
 import Input from "../component/Input";
+import CustomButton from "../component/CustomButton";
+
 
     const SignUp = ({navigation}) => {
       const [Email, setEmail] = useState("");
       const [FirstName, setFirstName] = useState("");
       const [LastName, setLastName] = useState("");
       const [Password, setPassword] = useState("");
+      const [Phone, setPhone] = useState("");
       const [PasswordConfirm, setPasswordConfirm] = useState("");
       const [loading, setLoading] = React.useState(false);
 
@@ -60,23 +67,6 @@ import Input from "../component/Input";
       const handleRegister = () => {
         if (Password === PasswordConfirm) {
           createUserWithEmailAndPassword(auth, Email, Password)
-            .then((userCredential) => {
-              const user = userCredential.user;
-              updateProfile(auth.currentUser, {
-                displayName: Name,
-                phoneNumber:Phone,
-              })
-                .then(() => {
-                  // Profile updated!
-                  // ...
-                })
-                .catch((error) => {
-                  window.alert(error.message);
-                });
-            })
-            .catch((error) => {
-              window.alert(error.message);
-            });
         } else {
           window.alert("Not Same Password");
         }
@@ -139,6 +129,8 @@ import Input from "../component/Input";
 
       return (
         <SafeAreaView style={{backgroundColor: '#fff' , flex: 1}}>
+                <Loader visible={loading} />
+
           <View style={{paddingTop: 50, paddingHorizontal: 20}}>
       {/* <Text style={{color: '#000', fontSize: 30, fontWeight: 'bold'}}>
       Create An Account
