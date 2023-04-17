@@ -7,6 +7,9 @@ const Input = ({
   iconName,
   error,
   password,
+  onChangeText,
+  // onBlur,
+  // value,
   onFocus = () => {},
   ...props
 }) => {
@@ -39,7 +42,8 @@ const Input = ({
           }}
           onBlur={() => setIsFocused(false)}
           secureTextEntry={hidePassword}
-          style={{color: COLORS.darkBlue, flex: 1}}
+          onChangeText={onChangeText}
+          style={{color: COLORS.darkBlue, flex: 1,outline:'none'}}
           {...props}
         />
         {password && (

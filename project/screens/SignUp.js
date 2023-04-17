@@ -7,23 +7,22 @@ import {
   getRedirectResult,
   signUpWithPopup,
 } from "firebase/auth";
-import auth from '../firebase/firebase';
-import React from 'react';
+import Loader from "../component/Loader";
+import { collection, addDoc, doc, setDoc } from "firebase/firestore"; 
+import { auth ,db} from "../firebase/firebase";
+import React from "react";
 import {
-      View,
-      Text,
-      SafeAreaView,
-       Keyboard,
-       StyleSheet,
-       Button,
-       TouchableOpacity,
-        Alert, 
-    } from 'react-native';
-    import Input from '../component/Input';
-    import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-    import COLORS from "../constant/colors";
-    import { globalStyles } from "../styles/global";
-    import CustomButton from "../component/CustomButton";
+  View,
+  Text,
+  SafeAreaView,
+  Keyboard,
+  StyleSheet,
+  Button,
+  TouchableOpacity,
+  Alert,
+  DatePickerIOS,
+} from "react-native";
+import Input from "../component/Input";
 
     const SignUp = ({navigation}) => {
       const [Email, setEmail] = useState("");
@@ -31,6 +30,8 @@ import {
       const [LastName, setLastName] = useState("");
       const [Password, setPassword] = useState("");
       const [PasswordConfirm, setPasswordConfirm] = useState("");
+      const [loading, setLoading] = React.useState(false);
+
       const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
       const provider = new GoogleAuthProvider();
@@ -175,27 +176,26 @@ import {
                  value={LastName}
                  onChangeText={setLastName}
           />
-          
-           {/* <Input
-                    iconName="phone-outline"
-                    label="Phone Number"
-                    placeholder="Enter your phone number"
-                    value={Phone}
-                    onChangeText={setPhone}
-          /> */}
+
+          <Input
+            iconName="phone-outline"
+            placeholder="Enter your phone number"
+            value={Phone}
+            onChangeText={setPhone}
+          />
           <Input
             iconName="lock-outline"
             placeholder="Enter your password"
-             secureTextEntry={true}
-             onChangeText={setPassword}
-             Password
+            secureTextEntry={true}
+            onChangeText={setPassword}
+            Password
           />
- <Input
+          <Input
             iconName="lock-outline"
             placeholder="Confirm your password "
-             secureTextEntry={true}
-             onChangeText={setPasswordConfirm}
-             Password
+            secureTextEntry={true}
+            onChangeText={setPasswordConfirm}
+            Password
           />
 
 {/* <TouchableOpacity style={styles.button} onPress={handleRegister} >
@@ -233,26 +233,27 @@ import {
     export default SignUp;
 
 
-    const styles = StyleSheet.create({
-      button: {
-        height: 55,
-        width: '100%',
-        backgroundColor: '#6c9cf9',
-        marginTop:20, marginBottom:20,
-        justifyContent: 'center',
-        alignItems: 'center',
-                activeOpacity : 0.7 ,
-              },
-              buttonText: {
-              color:  '#fff',
-               fontWeight: 'bold',
-               fontSize: 18,
-                textAlign: 'center',
-                      },
-              buttonText2: {
-              color: '#000',
-              fontWeight: 'bold',
-              textAlign: 'center',
-              fontSize: 16,
-                                },
-    });
+const styles = StyleSheet.create({
+  button: {
+    height: 55,
+    width: "100%",
+    backgroundColor: "#6c9cf9",
+    marginTop: 20,
+    marginBottom: 20,
+    justifyContent: "center",
+    alignItems: "center",
+    activeOpacity: 0.7,
+  },
+  buttonText: {
+    color: "#fff",
+    fontWeight: "bold",
+    fontSize: 18,
+    textAlign: "center",
+  },
+  buttonText2: {
+    color: "#000",
+    fontWeight: "bold",
+    textAlign: "center",
+    fontSize: 16,
+  },
+});

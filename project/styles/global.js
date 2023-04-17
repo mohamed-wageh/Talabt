@@ -16,6 +16,7 @@ export const globalStyles = StyleSheet.create({
     fontSize: 32,
     color: COLORS.black,
     fontFamily: "Nunito-Bold",
+    margin:5
   },
   text: {
     fontSize: 16,

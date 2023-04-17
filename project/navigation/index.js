@@ -12,7 +12,7 @@ import COLORS from "../constant/colors";
 import tabNavigator from "./tabNavigator";
 import EditProfile from "../screens/EditProfile";
 import Start from "../screens/Start";
-import Profile from "../screens/profile";
+// import Profile from "../screens/profile";
 import Test from "../screens/test";
 
 
@@ -25,12 +25,12 @@ export default function App() {
         initialRouteName="SignUp"
         screenOptions={{ headerShown: false }}
       >
-        <Stack.Screen name="Start" component={Start} />
+        <Stack.Screen name="Home" component={tabNavigator} />
         <Stack.Screen name="Welcome" component={Welcome} />
         <Stack.Screen name="SignIn" component={SignIn} />
         <Stack.Screen name="SignUp" component={SignUp} />
         <Stack.Screen name="Forget" component={Forget} />
-        <Stack.Screen name="Profile" component={Profile} />
+        {/* <Stack.Screen name="Profile" component={Profile} /> */}
         <Stack.Screen name="EditProfile" component={EditProfile} />
         <Stack.Screen name="Test" component={Test} />
       </Stack.Navigator>

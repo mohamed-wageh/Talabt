@@ -27,7 +27,7 @@ const Test = ({ navigation }) => {
           text="CREATE AN ACCOUNT"
           bgColor={"#fff"}
           txColor={"#6c9cf9"}
-          onPress={() => navigation.navigate("Signup")}
+          onPress={() => navigation.navigate("SignUp")}
         />
       </View>
     </View>
