@@ -5,16 +5,19 @@ import {
   GoogleAuthProvider,
   signInWithRedirect,
   getRedirectResult,
-  signUpWithPopup,
 } from "firebase/auth";
-import Loader from "../component/Loader";
-import { collection, addDoc, doc, setDoc } from "firebase/firestore"; 
-import { auth ,db} from "../firebase/firebase";
-import React from "react";
+
 import { globalStyles } from "../styles/global";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import COLORS from "../constant/colors";
 
+
+import Loader from "../component/Loader";
+import { Formik, Form, Field } from 'formik';
+import * as yup from 'yup';
+import auth from "../firebase/firebase";
+import CustomButton from "../component/CustomButton";
+import React from "react";
+import COLORS from "../constant/colors";
 import {
   View,
   Text,
@@ -24,214 +27,244 @@ import {
   Button,
   TouchableOpacity,
   Alert,
-  DatePickerIOS,
 } from "react-native";
 import Input from "../component/Input";
-import CustomButton from "../component/CustomButton";
 
+const SignUp = ({ navigation }) => {
+  const [Email, setEmail] = useState("");
+  const [firstName, setfirstName] = useState("");
+  const [lastName, setlastName] = useState("");
+  const [Phone, setmobile] = useState("");
+  const [Password, setPassword] = useState("");
+  const [confirmPassword, setconfirmPassword] = useState("");
+  const [loading, setLoading] = React.useState(false);
 
-    const SignUp = ({navigation}) => {
-      const [Email, setEmail] = useState("");
-      const [FirstName, setFirstName] = useState("");
-      const [LastName, setLastName] = useState("");
-      const [Password, setPassword] = useState("");
-      const [Phone, setPhone] = useState("");
-      const [PasswordConfirm, setPasswordConfirm] = useState("");
-      const [loading, setLoading] = React.useState(false);
+  // const [Phone, setPhone] = useState("");
 
-      const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-
-      const provider = new GoogleAuthProvider();
-      // signInWithPopup(auth, provider)
-      // .then((result) => {
-      //   // This gives you a Google Access Token. You can use it to access the Google API.
-      //   const credential = GoogleAuthProvider.credentialFromResult(result);
-      //   const token = credential.accessToken;
-      //   // The signed-in user info.
-      //   const user = result.user;
-      //   // IdP data available using getAdditionalUserInfo(result)
-      //   // ...
-      // }).catch((error) => {
-      //   // Handle Errors here.
-      //   const errorCode = error.code;
-      //   const errorMessage = error.message;
-      //   // The email of the user's account used.
-      //   const email = error.customData.email;
-      //   // The AuthCredential type that was used.
-      //   const credential = GoogleAuthProvider.credentialFromError(error);
-      //   // ...
-      // });
+  const provider = new GoogleAuthProvider();
+  const handleRegister = (Email,Password) => {
     
-
-
-      const handleRegister = () => {
-        if (Password === PasswordConfirm) {
-          createUserWithEmailAndPassword(auth, Email, Password)
-        } else {
-          window.alert("Not Same Password");
-        }
-        
-      };
-      const handleOnSignInPress = () => {
-        navigation.navigate("SignIn");
-      };
-      const handleSignInWithGoogle = () => {
-        signInWithRedirect(auth, provider);
-        getRedirectResult(auth)
-          .then((result) => {
-            // This gives you a Google Access Token. You can use it to access Google APIs.
-            const credential = GoogleAuthProvider.credentialFromResult(result);
-            const token = credential.accessToken;
-            console.log(token);
-            // The signed-in user info.
-            const user = result.user;
-            // IdP data available using getAdditionalUserInfo(result)
-            console.log(user);
-            // ...
+      setLoading(true);
+      setTimeout(async () => {
+        setLoading(false);
+        createUserWithEmailAndPassword(auth, Email, Password)
+          .then((userCredential) => {
+            const user = userCredential.user;
+            window.alert("account created")
+            navigation.navigate("Home");
           })
           .catch((error) => {
-            // Handle Errors here.
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            // The email of the user's account used.
-            console.log(errorMessage);
-            const email = error.customData.email;
-            // The AuthCredential type that was used.
-            console.log(email);
-            const credential = GoogleAuthProvider.credentialFromError(error);
-            // ...
-            console.log(credential);
+            window.alert(error.message);
           });
-      };
-      const handleSignInWithFacebook = () => {
-        console.log("handleSignInWithFacebook");
-      };
-      const handleForgetPassword = () => {
-        navigation.navigate("Forget");
-      };
+      }, 3000);
+      
+              // window.alert("account created")
+  };
+  const handleOnSignInPress = () => {
+    navigation.navigate("SignIn");
+  };
+  const handleSignInWithGoogle = () => {
+    signInWithRedirect(auth, provider);
+    getRedirectResult(auth)
+      .then((result) => {
+        // This gives you a Google Access Token. You can use it to access Google APIs.
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential.accessToken;
+        console.log(token);
+        // The signed-in user info.
+        const user = result.user;
+        // IdP data available using getAdditionalUserInfo(result)
+        console.log(user);
+        // ...
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        console.log(errorMessage);
+        const email = error.customData.email;
+        // The AuthCredential type that was used.
+        console.log(email);
+        const credential = GoogleAuthProvider.credentialFromError(error);
+        // ...
+        console.log(credential);
+      });
+  };
+  const handleSignInWithFacebook = () => {
+    console.log("handleSignInWithFacebook");
+  };
+  const handleForgetPassword = () => {
+    navigation.navigate("Forget");
+  };
+  const SignInvalidattion =yup.object().shape({
+    email:yup.string().email('please enter valid email').required('Email address is required'),
+    firstName:yup.string().min(2,({min})=> 'Too Short!').max(50,({max})=> 'Too Long!').required('firstName is required') ,
+    lastName:yup.string().min(2,({min})=> 'Too Short!').max(50,({max})=> 'Too Long!').required('lastName is required') ,
+    password:yup.string().min(6,({min})=> 'password must be at least 6 characters').required('password is required') ,
+    confirmpassword: yup.string().min(6,({min})=> 'password must be at least 6 characters').oneOf([ yup.ref('password')],'your password do not match').required('confirmPassword is required') ,
+    mobile:yup.string().min(11,({min})=> 'mobile number must be exactly 11 digit').max(11,({max})=> 'mobile number must be exactly 11 digit').matches(/^[0-9]+$/,'mobile number must be only digit') .required('mobile is required') ,
+  })
+  return (
+    <Formik initialValues={{ email: '' ,password:'',confirmpassword:'',firstName:'',lastName:'',mobile:''}}
+    validateOnMount={true}
+    onSubmit={values => handleRegister(values.email,values.password)}
+    validationSchema={SignInvalidattion}
+  >
+     {({ handleChange, handleBlur, handleSubmit, values,touched,errors,setFieldTouched, isValid }) => (
 
-
-      function registerUser() {
-        if (Email === "" || Password === "") {
-          alert("Email or password or username is empty");
-        } else if (!emailPattern.test(Email)) {
-          alert("Please use a real email");
-        }
-        else if (Password !== PasswordConfirm) {
-          alert("Passwords doesn't match");
-        }
-        else {
-          
-            handleRegister();
-          
-        }
-      }
-
-      return (
-        <SafeAreaView style={{backgroundColor: '#fff' , flex: 1}}>
-                <Loader visible={loading} />
-
-          <View style={{paddingTop: 50, paddingHorizontal: 20}}>
-      {/* <Text style={{color: '#000', fontSize: 30, fontWeight: 'bold'}}>
-      Create An Account
-      </Text>
-      <Text style={{color: '#BABBC3', fontSize: 18, marginVertical: 10, marginHorizontal:15}}>
-      Enter Your Details to Register
-      </Text> */}
-      <Text style={[globalStyles.title,{marginLeft:60}]}>
-      Create An Account
-      </Text>
-        <Text style={[globalStyles.text,{marginLeft:90}]}>
+    <SafeAreaView style={{ backgroundColor: COLORS.white, flex: 1 }}>
+      <Loader visible={loading} />
+      <View style={globalStyles.container}>
+        <Text style={globalStyles.title}>
+        Create An Account
+        </Text>
+        <Text style={globalStyles.text}>
         Enter Your Details to Register
         </Text>
-      <View style = {[{flexDirection:"row"},{marginTop:50},{marginBottom:15},{marginLeft:100}]}>
+        
+        <View style = {[{flexDirection:"row"},{marginTop:50},{marginBottom:10}]}>
           <Icon name="sofa-single" size={32} color={COLORS.blue} style={{marginTop:5}} />
           <Text style={[globalStyles.title,{marginHorizontal:10}]}>Cabinup</Text>
         </View>
         <View style={{width:"100%"}}>
+        <Input
+         onChangeText={handleChange('email')}
+         onBlur={handleBlur('email')}
+         value={values.email}
 
-      <Input
+            // onFocus={() => handleError(null, 'email')}
             iconName="email-outline"
+            // label="Email"
             placeholder="Enter your email address"
-            value={Email}
-            onChangeText={setEmail}
+            // error={errors.email}
+            // onChangeText={text => handleOnchange(text, 'email')}
           />
-          <Input
-                 iconName="account-outline"
-                 placeholder="Enter your first name"
-                 value={FirstName}
-                 onChangeText={setFirstName}
-          />
+          {(errors.email && touched.email)&&
+          <Text style={styles.errors}>{errors.email}</Text>
+          }
            <Input
-                 iconName="account-outline"
-                 placeholder="Enter your last name"
-                 value={LastName}
-                 onChangeText={setLastName}
+            iconName="account-outline"
+            placeholder="Enter your first name"
+            value={values.firstName}
+            onChangeText={handleChange('firstName')}
+             // onChangeText={setfirstName}
+             onBlur={() => setFieldTouched ('firstName')}
           />
-
-          <Input
+            {touched.firstName&& errors.firstName &&(
+          <Text style={styles.errors}>{errors.firstName}</Text>
+          )}
+           <Input
+            iconName="account-outline"
+            placeholder="Enter your last name"
+            value={values.lastName}
+            // onChangeText={setlastName}
+            onChangeText={handleChange('lastName')}
+            onBlur={() => setFieldTouched ('lastName')}
+          />
+            {touched.firstName && errors.lastName &&(
+          <Text style={styles.errors}>{errors.lastName}</Text>
+          )}
+           <Input
             iconName="phone-outline"
             placeholder="Enter your phone number"
-            value={Phone}
-            onChangeText={setPhone}
+            value={values.mobile}
+            // onChangeText={setmobile}
+            onChangeText={handleChange('mobile')}
+            onBlur={() => setFieldTouched ('mobile')}
           />
+          {touched.mobile && errors.mobile &&(
+          <Text style={styles.errors}>{errors.mobile}</Text>
+          )}
           <Input
+           onChangeText={handleChange('password')}
+           onBlur={handleBlur('password')}
+           value={values.password}
+            // onFocus={() => handleError(null, 'password')}
             iconName="lock-outline"
+            // label="Password"
             placeholder="Enter your password"
-            secureTextEntry={true}
-            onChangeText={setPassword}
-            Password
+            // error={errors.password}
+            // onChangeText={text => handleOnchange(text, 'password')}
+            password
           />
+          {(errors.password && touched.password)&&
+          <Text style={styles.errors}>{errors.password}</Text>
+          }
           <Input
+           onChangeText={handleChange('confirmpassword')}
+           onBlur={handleBlur('confirmpassword')}
+           value={values.confirmpassword}
+            // onFocus={() => handleError(null, 'password')}
             iconName="lock-outline"
-            placeholder="Confirm your password "
-            secureTextEntry={true}
-            onChangeText={setPasswordConfirm}
-            Password
+            // label="Password"
+            placeholder="Enter your confirm password"
+            // error={errors.password}
+            // onChangeText={text => handleOnchange(text, 'password')}
+            password
           />
-
-{/* <TouchableOpacity style={styles.button} onPress={handleRegister} >
-           <Text style={styles.buttonText}>Sign Up</Text>
-         </TouchableOpacity> */}
-
-         <CustomButton    
-         text={"Create Account"}
-         onPress={registerUser}
-
-        //  onPress={() => registerUser()}
-         />
-
-         {/* <Icon
-          name={google}
-          style={{color: COLORS.darkBlue, fontSize: 22, marginRight: 10}}
-        /> */}
-          {/* <TouchableOpacity   onPress={handleOnSignInPress}>
-          <Text style={styles.buttonText2}>
-          Already have account ? Login
-          </Text>
+          {(errors.confirmpassword && touched.confirmpassword)&&
+          <Text style={styles.errors}>{errors.confirmpassword}</Text>
+          }
+          
+        </View>
+        {/* <TouchableOpacity onPress={handleForgetPasswordPress}>
+            <Text style={[styles.buttonText2,{right:0}]}>Forget Password ?</Text>
           </TouchableOpacity> */}
+          <CustomButton
+          disabled={!isValid}
+          text={"Create Account"}
+          onPress={handleSubmit}
+          />
+          <TouchableOpacity
+          
+        onPress={handleSignInWithGoogle}
+       
+        style= {[styles.button1,{marginTop:20},{flexDirection:"row"},{ borderRadius: 10,},{backgroundColor:'#DB4437'}]}>
+        {/* <Icon
+          name={"google"}
+          style={[{ fontSize: 22},{color:COLORS.blue},{marginLeft:10}]}
+        /> */}
+       <Text style={[styles.buttonText]} > Continue with Google</Text>
+      </TouchableOpacity>
           <TouchableOpacity onPress={handleOnSignInPress}>
-            <Text style={[styles.buttonText2,{marginTop:"30%"}]}>
-            Already have account ? <Text   style={{ color: COLORS.blue }}> Login</Text>
+            <Text style={[styles.buttonText2,{marginTop:"0%"}]}>
+            Already have account ?<Text   style={{ color: COLORS.blue }}>Login</Text>
             </Text>
           </TouchableOpacity>
-          </View>
-          </View>
-          </SafeAreaView>
 
-        );
-
-    };
-    export default SignUp;
-
+      </View>
+    </SafeAreaView>
+    )}
+    </Formik>
+  );
+};
+export default SignUp;
 
 const styles = StyleSheet.create({
   button: {
     height: 55,
     width: "100%",
-    backgroundColor: "#6c9cf9",
-    marginTop: 20,
-    marginBottom: 20,
+    backgroundColor: "#B57EDC",
+    marginVertical: 30,
+    justifyContent: "center",
+    alignItems: "center",
+    activeOpacity: 0.7,
+  },
+  button1: {
+    height: 65,
+    width: "100%",
+    backgroundColor: "#458ae7",
+    marginVertical: 5,
+    justifyContent: "center",
+    alignItems: "center",
+    activeOpacity: 0.7,
+  },
+  button2: {
+    height: 55,
+    width: "100%",
+    backgroundColor: "#DB4437",
+    marginVertical: 5,
     justifyContent: "center",
     alignItems: "center",
     activeOpacity: 0.7,
@@ -239,7 +272,7 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "#fff",
     fontWeight: "bold",
-    fontSize: 18,
+    fontSize: 20,
     textAlign: "center",
   },
   buttonText2: {
@@ -247,5 +280,21 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     fontSize: 16,
+    marginBottom: 15,
+    marginTop: 15,
   },
+  errors:{
+    color: COLORS.red,
+     fontSize: 12,
+  },
+  // roundButton1: {
+  //   width: 50,
+  //   height: 50,
+  //   justifyContent: 'center',
+  //   alignItems: 'center',
+  //   padding: 10,
+  //   borderRadius: 100,
+  //   backgroundColor: 'white',
+  // },
+  
 });
