@@ -13,7 +13,7 @@ import {
 
 import React from "react";
 import { TextInput } from "react-native";
-import auth from "../firebase/firebase";
+import { auth, db } from "../firebase/firebase";
 import Input from "../component/Input";
 import COLORS from "../constant/colors";
 import { globalStyles } from "../styles/global";
@@ -51,7 +51,7 @@ const SignIn = ({ navigation }) => {
 
   const SignInvalidattion =yup.object().shape({
     email:yup.string().email('please enter valid email').required('Email address is required'),
-    password:yup.string().min(6,({min})=> 'password must be  6 characters').required('password is required') 
+    password:yup.string().min(6,({min})=> 'password must be at least 6 characters').required('password is required') 
 
   })
   const handleSignIn = (Email,Password) => {
@@ -145,15 +145,26 @@ const SignIn = ({ navigation }) => {
           }
         </View>
           <TouchableOpacity onPress={handleForgetPasswordPress}>
-            <Text style={[styles.buttonText2,{right:0}]}>Forget Password ?</Text>
+            <Text style={[styles.buttonText2,{marginLeft:200}]}>Forget Password ?</Text>
           </TouchableOpacity>
           <CustomButton
           disabled={!isValid}
-          text={"Login"}
+          text={"Sign In"}
           onPress={handleSubmit}
           />
+          <TouchableOpacity
+          
+          onPress={handleSignInWithGoogle}
+         
+          style= {[styles.button1,{marginTop:20},{flexDirection:"row"},{ borderRadius: 10,},{backgroundColor:'#DB4437'}]}>
+          {/* <Icon
+            name={"google"}
+            style={[{ fontSize: 22},{color:COLORS.blue},{marginLeft:10}]}
+          /> */}
+         <Text style={[styles.buttonText]} > Continue with Google</Text>
+        </TouchableOpacity>
           <TouchableOpacity onPress={handleOnSignUpPress}>
-            <Text style={[styles.buttonText2,{marginTop:"100%"}]}>
+            <Text style={[styles.buttonText2,{marginTop:"80%"}]}>
               Don't have account ?<Text   style={{ color: COLORS.blue }}> Register</Text>
             </Text>
           </TouchableOpacity>
@@ -176,7 +187,7 @@ const styles = StyleSheet.create({
     activeOpacity: 0.7,
   },
   button1: {
-    height: 55,
+    height: 65,
     width: "100%",
     backgroundColor: "#458ae7",
     marginVertical: 5,
@@ -196,7 +207,7 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "#fff",
     fontWeight: "bold",
-    fontSize: 18,
+    fontSize: 20,
     textAlign: "center",
   },
   buttonText2: {
