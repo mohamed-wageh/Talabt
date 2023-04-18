@@ -9,7 +9,7 @@ import cart from "../screens/cart";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import FeatherIcon from "react-native-vector-icons/Feather";
 import COLORS from "../constant/colors";
-
+import EditProfile from "../screens/EditProfile";
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 const HomeStack = () => {
@@ -18,6 +18,7 @@ const HomeStack = () => {
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Home3" component={Home} />
         <Stack.Screen name="Details" component={Details} />
+        {/* <Stack.Screen name="EditProfile" component={EditProfile} /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );

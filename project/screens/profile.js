@@ -19,7 +19,7 @@ export default function Profile({ navigation }) {
   const [FirstName, setFirstName] = useState("");
   const [LastName, setLastName] = useState("");
   const [Phone, setPhone] = useState("");
-  const [birthdate, setbirthdate] = useState("");
+  const [birthdate, setBirthdate] = useState("");
   const handleSignOut = () => {
     signOut(auth)
       .then(() => {
@@ -35,11 +35,11 @@ export default function Profile({ navigation }) {
 
     if (docSnap.exists()) {
       const data = docSnap.data();
-      console.log()
       setFirstName(data.FirstName);
       setLastName(data.LastName);
-      setEmail(data.email);
+      setEmail(data.Email);
       setPhone(data.Phone);
+      setBirthdate(data.birthdate);
     } else {
       // docSnap.data() will be undefined in this case
       console.log("No such document!");
@@ -56,44 +56,37 @@ export default function Profile({ navigation }) {
       <View style={styles.buttonContainer}>
         <View style={styles.textinputContainer}>
           <View style={styles.labelContainer}>
-            <Text style={styles.labeltext}>User Name</Text>
-          </View>
-          <View style={styles.inputContainer}>
-            <TextInput
-              placeholder="Enter User Name"
-              value={FirstName}
-              editable={false}
-            />
-          </View>
-        </View>
-
-        <View style={styles.textinputContainer}>
-          <View style={styles.labelContainer}>
             <Text style={styles.labeltext}>Email Address</Text>
           </View>
           <View style={styles.inputContainer}>
-            <TextInput
-              placeholder="Enter email address"
-              keyboardType="email-address"
-              onChangeText={setEmail}
-              value={email}
-              editable={false}
-              /* value={auth.currentUser.email} */
-            />
+            <Text>{auth.currentUser.email}</Text>
           </View>
         </View>
 
         <View style={styles.textinputContainer}>
           <View style={styles.labelContainer}>
-            <Text style={styles.labeltext}>Mobile Number</Text>
+            <Text style={styles.labeltext}>FirstName</Text>
           </View>
           <View style={styles.inputContainer}>
-            <TextInput
-              placeholder="Enter Mobile Number"
-              keyboardType="phone-pad"
-              value={Phone}
-              editable={false}
-            />
+            <Text>{FirstName}</Text>
+          </View>
+        </View>
+
+        <View style={styles.textinputContainer}>
+          <View style={styles.labelContainer}>
+            <Text style={styles.labeltext}>LastName</Text>
+          </View>
+          <View style={styles.inputContainer}>
+            <Text>{LastName}</Text>
+          </View>
+        </View>
+
+        <View style={styles.textinputContainer}>
+          <View style={styles.labelContainer}>
+            <Text style={styles.labeltext}>Phone</Text>
+          </View>
+          <View style={styles.inputContainer}>
+            <Text>{Phone}</Text>
           </View>
         </View>
 
@@ -102,7 +95,7 @@ export default function Profile({ navigation }) {
             <Text style={styles.labeltext}>Birthdate</Text>
           </View>
           <View style={styles.inputContainer}>
-            <TextInput placeholder="Enter birthdate" />
+            <Text>{birthdate}</Text>
           </View>
         </View>
       </View>
@@ -141,7 +134,7 @@ const styles = StyleSheet.create({
   },
 
   buttonContainer: {
-    flexDirection: "coulmn",
+    // flexDirection: "coulmn",
     justifyContent: "space-between",
     width: "80%",
     marginTop: 130,

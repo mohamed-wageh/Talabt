@@ -8,6 +8,7 @@ import {
   Button,
   useWindowDimensions,
   TouchableOpacity,
+  ScrollView,
   Alert,  
 } from "react-native";
 
@@ -19,9 +20,14 @@ import COLORS from "../constant/colors";
 import { globalStyles } from "../styles/global";
 import Loader from '../component/Loader';
 import {AsyncStorage} from 'react-native';
+import {
+  signInWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+} from "firebase/auth";
+const provider = new GoogleAuthProvider();
 import CustomButton from "../component/CustomButton";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { signInWithEmailAndPassword } from "firebase/auth";
 import { Formik, Form, Field } from 'formik';
 import * as yup from 'yup';
 
@@ -73,8 +79,28 @@ const SignIn = ({ navigation }) => {
   const handleOnSignUpPress = () => {
     navigation.navigate("SignUp");
   };
-  const handleSignInWithGoogle = () => {
-    window.alert("handleSignInWithGoogle");
+  const GoogleAuthentication = () => {
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential.accessToken;
+        // The signed-in user info.
+        const user = result.user;
+        navigation.navigate("Profile");
+        // IdP data available using getAdditionalUserInfo(result)
+        // ...
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.customData.email;
+        // The AuthCredential type that was used.
+        const credential = GoogleAuthProvider.credentialFromError(error);
+        // ...
+      });
   };
   const handleSignInWithFacebook = () => {
     window.alert("handleSignInWithFacebook");
@@ -91,87 +117,111 @@ const SignIn = ({ navigation }) => {
   // };
   return (
     <Formik
-    initialValues={{ email: '' ,password:''}}
-    validateOnMount={true}
-    onSubmit={values => handleSignIn(values.email,values.password)}
-    validationSchema={SignInvalidattion}
-  >
-     {({ handleChange, handleBlur, handleSubmit, values,touched,errors, isValid }) => (
+      initialValues={{ email: "", password: "" }}
+      validateOnMount={true}
+      onSubmit={(values) => handleSignIn(values.email, values.password)}
+      validationSchema={SignInvalidattion}
+    >
+      {({
+        handleChange,
+        handleBlur,
+        handleSubmit,
+        values,
+        touched,
+        errors,
+        isValid,
+      }) => (
+        <SafeAreaView style={{ backgroundColor: COLORS.white, flex: 1 }}>
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <Loader visible={loading} />
+            <View style={globalStyles.container}>
+              <Text style={globalStyles.title}>Welcome Back</Text>
+              <Text style={globalStyles.text}>Login to your account</Text>
+              <View
+                style={[
+                  { flexDirection: "row" },
+                  { marginTop: 150 },
+                  { marginBottom: 10 },
+                ]}
+              >
+                <Icon
+                  name="sofa-single"
+                  size={32}
+                  color={COLORS.blue}
+                  style={{ marginTop: 5 }}
+                />
+                <Text style={[globalStyles.title, { marginHorizontal: 10 }]}>
+                  Cabinup
+                </Text>
+              </View>
+              <View style={{ width: "100%" }}>
+                <Input
+                  onChangeText={handleChange("email")}
+                  onBlur={handleBlur("email")}
+                  value={values.email}
+                  // onFocus={() => handleError(null, 'email')}
+                  iconName="email-outline"
+                  // label="Email"
+                  placeholder="Enter your email address"
+                  // error={errors.email}
+                  // onChangeText={text => handleOnchange(text, 'email')}
+                />
+                {errors.email && touched.email && (
+                  <Text style={styles.errors}>{errors.email}</Text>
+                )}
 
-    <SafeAreaView style={{ backgroundColor: COLORS.white, flex: 1 }}>
-      <Loader visible={loading} />
-      <View style={globalStyles.container}>
-        <Text style={globalStyles.title}>
-          Welcome Back
-        </Text>
-        <Text style={globalStyles.text}>
-          Login to your account
-        </Text>
-        <View style = {[{flexDirection:"row"},{marginTop:150},{marginBottom:10}]}>
-          <Icon name="sofa-single" size={32} color={COLORS.blue} style={{marginTop:5}} />
-          <Text style={[globalStyles.title,{marginHorizontal:10}]}>Cabinup</Text>
-        </View>
-        <View style={{width:"100%"}}>
-        <Input
-         onChangeText={handleChange('email')}
-         onBlur={handleBlur('email')}
-         value={values.email}
-
-            // onFocus={() => handleError(null, 'email')}
-            iconName="email-outline"
-            // label="Email"
-            placeholder="Enter your email address"
-            // error={errors.email}
-            // onChangeText={text => handleOnchange(text, 'email')}
-          />
-          {(errors.email && touched.email)&&
-          <Text style={styles.errors}>{errors.email}</Text>
-          }
-          
-          <Input
-           onChangeText={handleChange('password')}
-           onBlur={handleBlur('password')}
-           value={values.password}
-            // onFocus={() => handleError(null, 'password')}
-            iconName="lock-outline"
-            // label="Password"
-            placeholder="Enter your password"
-            // error={errors.password}
-            // onChangeText={text => handleOnchange(text, 'password')}
-            password
-          />
-          {(errors.password && touched.password)&&
-          <Text style={styles.errors}>{errors.password}</Text>
-          }
-        </View>
-          <TouchableOpacity onPress={handleForgetPasswordPress}>
-            <Text style={[styles.buttonText2,{marginLeft:200}]}>Forget Password ?</Text>
-          </TouchableOpacity>
-          <CustomButton
-          disabled={!isValid}
-          text={"Sign In"}
-          onPress={handleSubmit}
-          />
-          <TouchableOpacity
-          
-          onPress={handleSignInWithGoogle}
-         
-          style= {[styles.button1,{marginTop:20},{flexDirection:"row"},{ borderRadius: 10,},{backgroundColor:'#DB4437'}]}>
-          {/* <Icon
+                <Input
+                  onChangeText={handleChange("password")}
+                  onBlur={handleBlur("password")}
+                  value={values.password}
+                  // onFocus={() => handleError(null, 'password')}
+                  iconName="lock-outline"
+                  // label="Password"
+                  placeholder="Enter your password"
+                  // error={errors.password}
+                  // onChangeText={text => handleOnchange(text, 'password')}
+                  password
+                />
+                {errors.password && touched.password && (
+                  <Text style={styles.errors}>{errors.password}</Text>
+                )}
+              </View>
+              <TouchableOpacity onPress={handleForgetPasswordPress}>
+                <Text style={[styles.buttonText2, { marginLeft: 200 }]}>
+                  Forget Password ?
+                </Text>
+              </TouchableOpacity>
+              <CustomButton
+                disabled={!isValid}
+                text={"Sign In"}
+                onPress={handleSubmit}
+              />
+              <TouchableOpacity
+                onPress={GoogleAuthentication}
+                style={[
+                  styles.button1,
+                  { marginTop: 20 },
+                  { flexDirection: "row" },
+                  { borderRadius: 10 },
+                  { backgroundColor: "#DB4437" },
+                ]}
+              >
+                {/* <Icon
             name={"google"}
             style={[{ fontSize: 22},{color:COLORS.blue},{marginLeft:10}]}
           /> */}
-         <Text style={[styles.buttonText]} > Continue with Google</Text>
-        </TouchableOpacity>
-          <TouchableOpacity onPress={handleOnSignUpPress}>
-            <Text style={[styles.buttonText2,{marginTop:"80%"}]}>
-              Don't have account ?<Text   style={{ color: COLORS.blue }}> Register</Text>
-            </Text>
-          </TouchableOpacity>
-
-      </View>
-    </SafeAreaView>
-    )}
+                <Text style={[styles.buttonText]}> Continue with Google</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={handleOnSignUpPress}>
+                <Text style={[styles.buttonText2, { }]}>
+                  Don't have account ?
+                  <Text style={{ color: COLORS.blue }}> Register</Text>
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </ScrollView>
+        </SafeAreaView>
+      )}
     </Formik>
   );
 };

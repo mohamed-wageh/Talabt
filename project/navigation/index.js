@@ -5,7 +5,7 @@ import Welcome from "../screens/Welcome";
 import SignIn from "../screens/SignIn";
 import SignUp from "../screens/SignUp";
 import Forget from "../screens/forget";
-// import Profile from "../screens/Profile";
+import Profile from "../screens/Profile";
 import Home from "../screens/home";
 import Details from "../screens/detailsScreen";
 import COLORS from "../constant/colors";
@@ -30,9 +30,9 @@ export default function App() {
         <Stack.Screen name="SignIn" component={SignIn} />
         <Stack.Screen name="SignUp" component={SignUp} />
         <Stack.Screen name="Forget" component={Forget} />
-        {/* <Stack.Screen name="Profile" component={Profile} /> */}
+        <Stack.Screen name="Profile" component={tabNavigator} />
         <Stack.Screen name="EditProfile" component={EditProfile} />
-        <Stack.Screen name="Test" component={Test} />
+        <Stack.Screen name="Details" component={Details} />
       </Stack.Navigator>
     </NavigationContainer>
   );
