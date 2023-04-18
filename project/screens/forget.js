@@ -1,7 +1,7 @@
 import { card,Alert,useWindowDimensions, SafeAreaView,Button, View, Text,StyleSheet,TextInput,ImageBackground,TouchableOpacity} from 'react-native'
 import React, { useState } from 'react'
 import { sendPasswordResetEmail } from "firebase/auth";
-import auth from '../firebase/firebase';
+import { auth ,db} from "../firebase/firebase";
 import Input from '../component/Input';
 import COLORS from '../constant/colors';
 import CustomButton from '../component/CustomButton';

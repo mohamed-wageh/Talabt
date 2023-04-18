@@ -60,6 +60,7 @@ const Input = ({
         </Text>
       )}
     </View>
+    
   );
 };
 

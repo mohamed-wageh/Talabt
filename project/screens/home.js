@@ -188,6 +188,7 @@ const style = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     paddingHorizontal: 20,
+    margin:10
   },
   headerTitle: {
     fontSize: 23,

@@ -11,6 +11,10 @@ import { globalStyles } from "../styles/global";
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 
+
+
+
+
 import Loader from "../component/Loader";
 import { Formik, Form, Field } from 'formik';
 import * as yup from 'yup';
@@ -106,8 +110,7 @@ const SignUp = ({ navigation }) => {
     mobile:yup.string().min(11,({min})=> 'mobile number must be exactly 11 digit').max(11,({max})=> 'mobile number must be exactly 11 digit').matches(/^[0-9]+$/,'mobile number must be only digit') .required('mobile is required') ,
   })
   return (
-    <Formik
-    initialValues={{ email: '' ,password:'',confirmpassword:'',firstName:'',lastName:'',mobile:''}}
+    <Formik initialValues={{ email: '' ,password:'',confirmpassword:'',firstName:'',lastName:'',mobile:''}}
     validateOnMount={true}
     onSubmit={values => handleRegister(values.email,values.password)}
     validationSchema={SignInvalidattion}
@@ -209,7 +212,7 @@ const SignUp = ({ navigation }) => {
           }
           
         </View>
-          {/* <TouchableOpacity onPress={handleForgetPasswordPress}>
+        {/* <TouchableOpacity onPress={handleForgetPasswordPress}>
             <Text style={[styles.buttonText2,{right:0}]}>Forget Password ?</Text>
           </TouchableOpacity> */}
           <CustomButton
@@ -299,5 +302,3 @@ const styles = StyleSheet.create({
   // },
   
 });
-
-
