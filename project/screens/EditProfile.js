@@ -7,10 +7,15 @@ import {
   View,
   Image,
   TouchableOpacity,
+  ScrollView,
+  SafeAreaView,
 } from "react-native";
+import React from "react";
 import { useState } from "react";
 import profile from "../assets/profile.jpg";
 import Loader from "../component/Loader";
+import COLORS from "../constant/colors";
+
 
 // import { auth, db } from "firebase/auth";
 import { collection, getDoc, doc, updateDoc, setDoc } from "firebase/firestore";
@@ -25,12 +30,26 @@ export default function EditProfile({ navigation }) {
     const [checkValidPhone, setCheckValidPhone] = useState(false);
     const [checkValidFirstName, setCheckValidFirstName] = useState(false);
     const [CheckValidLastName, setCheckValidLastName] = useState(false);
+    const [loading, setLoading] = React.useState(false);
   const handleBack = () => {
     navigation.navigate("Profile");
   };
   const handleSave = () => {
     updateUserData();
-    navigation.navigate("Profile");
+    setLoading(true);
+    setTimeout(async () => {
+      setLoading(false);
+      updateUserData()
+      .then(() => {
+        navigation.navigate("Profile");
+        console.log("done")
+        
+      })
+      .catch((error) => {
+        window.alert(error.message);
+      });
+
+    }, 3000);
   };
 const updateUserData = async() => {
     const washingtonRef = doc(db, "users", auth.currentUser.uid);
@@ -82,6 +101,8 @@ const handleValidFirstName = (text) => {
 
 
   return (
+    <SafeAreaView style={{ backgroundColor: "white", flex:'1'}}>
+       <Loader visible={loading} />
     <View style={styles.container}>
       <Text style={styles.title}>EditProfile </Text>
 
@@ -180,14 +201,26 @@ const handleValidFirstName = (text) => {
           <Text style={styles.SignOutbuttontext}>Back</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.SignOutbutton} onPress={handleSave}>
+        {Phone == '' || FirstName == '' ||LastName == '' ||birthdate == '' ||checkValidPhone == true ||checkValidFirstName == true ||CheckValidLastName == true ? (
+        <TouchableOpacity style={styles.buttonDisable} 
+        onPress={handleSave}
+        disabled>
           <Text style={styles.SignOutbuttontext}>Save </Text>
         </TouchableOpacity>
-      </View>
+        ) : (
+          <TouchableOpacity style={styles.SignOutbutton} 
+          onPress={handleSave}>
+            <Text style={styles.SignOutbuttontext}>Save</Text>
 
-      <StatusBar style="auto" />
-    </View>
-  );
+        
+        </TouchableOpacity>
+        )}
+      </View>
+  <StatusBar style="auto" />
+  </View>
+</SafeAreaView>
+
+);
 }
 
 const styles = StyleSheet.create({
@@ -264,5 +297,14 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     color: 'red',
     fontSize: 12,
+  },
+  buttonDisable: {
+    backgroundColor: "grey",
+    padding: 10,
+    borderRadius: 10,
+    width: "30%",
+    alignItems: "center",
+    marginTop: 90,
+    marginLeft: 40,
   },
 });
