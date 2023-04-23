@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { useState } from "react";
 import profile from "../assets/profile.jpg";
+import Loader from "../component/Loader";
 
 // import { auth, db } from "firebase/auth";
 import { collection, getDoc, doc, updateDoc, setDoc } from "firebase/firestore";
@@ -21,6 +22,9 @@ export default function EditProfile({ navigation }) {
     const [LastName, setLastName] = useState("");
     const [Phone, setPhone] = useState("");
     const [birthdate, setbirthdate] = useState("");
+    const [checkValidPhone, setCheckValidPhone] = useState(false);
+    const [checkValidFirstName, setCheckValidFirstName] = useState(false);
+    const [CheckValidLastName, setCheckValidLastName] = useState(false);
   const handleBack = () => {
     navigation.navigate("Profile");
   };
@@ -38,6 +42,45 @@ await updateDoc(washingtonRef, {
   birthdate: birthdate,
 });
 }
+const handleValidLastName = (text) => {
+  const isNonWhiteSpace = /^\S*$/;
+  const isValidLength = /^.{3,10}$/;
+  if (isNonWhiteSpace.test(text) && isValidLength.test(text)) {
+    return  setCheckValidLastName(false);
+    
+  }
+  else{
+    return setCheckValidLastName(true);
+  }
+  
+}
+
+const handleValidFirstName = (text) => {
+  const isNonWhiteSpace = /^\S*$/;
+  const isValidLength = /^.{3,10}$/;
+  if (isNonWhiteSpace.test(text) && isValidLength.test(text)) {
+    return setCheckValidFirstName(false);
+    
+  }
+ 
+  else{
+    return setCheckValidFirstName(true);
+  }
+}
+
+  const handleValidPhone = (text) => {
+    const isNonWhiteSpace = /^\S*$/;
+    const isValidLength = /^.{11}$/;
+    if (isNonWhiteSpace.test(text) && isValidLength.test(text)&& text.match(/^\d+/)) {
+      return setCheckValidPhone(false); 
+    }
+    else{
+      return setCheckValidPhone(true);
+    }
+}
+
+
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>EditProfile </Text>
@@ -60,11 +103,20 @@ await updateDoc(washingtonRef, {
             <TextInput
               placeholder="Enter FirstName"
               keyboardType="email-address"
-              onChangeText={setFirstName}
-              /* value={auth.currentUser.email} */
+              onChangeText={(text) => {
+                setFirstName(text);
+                handleValidFirstName(text);
+              }}
             />
           </View>
         </View>
+            {checkValidFirstName ? (
+              <Text style={styles.textFailed}>FirstName must be 3-10 Characters without space</Text>
+            ):(
+              <Text style={styles.textFailed}></Text>
+
+            ) }
+
 
         <View style={styles.textinputContainer}>
           <View style={styles.labelContainer}>
@@ -72,11 +124,20 @@ await updateDoc(washingtonRef, {
           </View>
           <View style={styles.inputContainer}>
             <TextInput
-              placeholder="Enter LastName"
-              onChangeText={setLastName}
+                placeholder="Enter LastName"
+                onChangeText={(text) => {
+                setLastName(text);
+                handleValidLastName(text);
+              }}
             />
           </View>
         </View>
+        {CheckValidLastName ? (
+              <Text style={styles.textFailed}>LastName must be 3-10 Characters without space</Text>
+            ):(
+              <Text style={styles.textFailed}></Text>
+
+            ) }
 
         <View style={styles.textinputContainer}>
           <View style={styles.labelContainer}>
@@ -85,11 +146,20 @@ await updateDoc(washingtonRef, {
           <View style={styles.inputContainer}>
             <TextInput
               placeholder="Enter Phone"
-              onChangeText={setPhone}
               keyboardType="phone-pad"
+              onChangeText={(text) => {
+                setPhone(text);
+                handleValidPhone(text);
+              }}
             />
           </View>
         </View>
+        {checkValidPhone ? (
+              <Text style={styles.textFailed}>Phone must be 11 digit without space</Text>
+            ):(
+              <Text style={styles.textFailed}></Text>
+
+            ) }
         <View style={styles.textinputContainer}>
           <View style={styles.labelContainer}>
             <Text style={styles.labeltext}>Birthdate</Text>
@@ -98,7 +168,7 @@ await updateDoc(washingtonRef, {
             <TextInput
               placeholder="Enter Birthdate"
               onChangeText={setbirthdate}
-              keyboardType="phone-pad"
+              keyboardType="date"
             />
           </View>
         </View>
@@ -189,5 +259,10 @@ const styles = StyleSheet.create({
   textinputContainer: {
     margin: 25,
     left: 10,
+  },
+  textFailed: {
+    alignSelf: 'center',
+    color: 'red',
+    fontSize: 12,
   },
 });
