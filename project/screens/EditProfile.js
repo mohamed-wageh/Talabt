@@ -9,17 +9,16 @@ import {
   TouchableOpacity,
   ScrollView,
   SafeAreaView,
+  input,
 } from "react-native";
 import React from "react";
 import { useState } from "react";
 import profile from "../assets/profile.jpg";
 import Loader from "../component/Loader";
-import COLORS from "../constant/colors";
-
-
-// import { auth, db } from "firebase/auth";
 import { collection, getDoc, doc, updateDoc, setDoc } from "firebase/firestore";
 import { auth,db } from "../firebase/firebase";
+import { ref ,uploadBytes ,getDownloadURL } from "firebase/storage";
+import {storage}from"../firebase/firebase";
 
 export default function EditProfile({ navigation }) {
     const [email, setEmail] = useState("");
@@ -31,11 +30,16 @@ export default function EditProfile({ navigation }) {
     const [checkValidFirstName, setCheckValidFirstName] = useState(false);
     const [CheckValidLastName, setCheckValidLastName] = useState(false);
     const [loading, setLoading] = React.useState(false);
+    const [image,setImage]=useState("https://www.bing.com/images/search?view=detailV2&ccid=eCrcK2Bi&id=8BBE3A54A26BEDFFE61006D334E8203E0343F7B0&thid=OIP.eCrcK2BiqwBGE1naWwK3UwHaHa&mediaurl=https%3a%2f%2fwww.pngall.com%2fwp-content%2fuploads%2f5%2fProfile-PNG-File.png&cdnurl=https%3a%2f%2fth.bing.com%2fth%2fid%2fR.782adc2b6062ab00461359da5b02b753%3frik%3dsPdDAz4g6DTTBg%26pid%3dImgRaw%26r%3d0&exph=673&expw=673&q=profile+logo+png&simid=607996898040303146&FORM=IRPRST&ck=569FB476D066C1FB196C59F7C4A67893&selectedIndex=27");
+    const [url,setUrl]=useState(null);
+
   const handleBack = () => {
     navigation.navigate("Profile");
   };
+
   const handleSave = () => {
     updateUserData();
+    handleSubmit();
     setLoading(true);
     setTimeout(async () => {
       setLoading(false);
@@ -59,33 +63,31 @@ await updateDoc(washingtonRef, {
   LastName: LastName,
   Phone: Phone,
   birthdate: birthdate,
+  url:url,
 });
-}
+};
+
 const handleValidLastName = (text) => {
   const isNonWhiteSpace = /^\S*$/;
   const isValidLength = /^.{3,10}$/;
   if (isNonWhiteSpace.test(text) && isValidLength.test(text)) {
     return  setCheckValidLastName(false);
-    
   }
   else{
     return setCheckValidLastName(true);
   }
-  
-}
+};
 
 const handleValidFirstName = (text) => {
   const isNonWhiteSpace = /^\S*$/;
   const isValidLength = /^.{3,10}$/;
   if (isNonWhiteSpace.test(text) && isValidLength.test(text)) {
     return setCheckValidFirstName(false);
-    
   }
- 
   else{
     return setCheckValidFirstName(true);
   }
-}
+};
 
   const handleValidPhone = (text) => {
     const isNonWhiteSpace = /^\S*$/;
@@ -96,15 +98,51 @@ const handleValidFirstName = (text) => {
     else{
       return setCheckValidPhone(true);
     }
-}
+};
 
+  const handleSubmit= () => {
+    const storageRef = ref(storage, 'some-child');
+    // 'file' comes from the Blob or File API
+    uploadBytes(storageRef, image)
+    .then((snapshot) => {
+    console.log('Uploaded a blob or file!');
+    getDownloadURL(storageRef).then((url)=>{
+      setUrl(url);
+    })
+    .catch((error) => {
+      window.alert(error.message ,"error in url");
+    });
+    })
+    .catch((error) => {
+      window.alert(error.message);
+    });
 
+};
+
+   const handleImagChande= (e) => {
+    if(e.target.files[0]){
+      setImage(e.target.files[0])
+    }
+};
 
   return (
     <SafeAreaView style={{ backgroundColor: "white", flex:'1'}}>
        <Loader visible={loading} />
     <View style={styles.container}>
       <Text style={styles.title}>EditProfile </Text>
+     
+      <View style={styles.imagecontainer}>
+       <input type="file"
+        onChange={(e) => {
+          setUrl(e);
+          handleImagChande(e);
+        }}
+      />
+      <Image source={url} alt='No img' style={styles.image} onChange={setUrl}/>
+       <TouchableOpacity style={styles.imgbutton} onPress={handleSubmit}>
+          <Text style={styles.SignOutbuttontext}>submit</Text>
+        </TouchableOpacity>
+      </View>
 
       <View style={styles.buttonContainer}>
         <View style={styles.textinputContainer}>
@@ -195,7 +233,6 @@ const handleValidFirstName = (text) => {
         </View>
       </View>
 
-      <Image source={profile} style={styles.image} />
       <View style={styles.buttons}>
         <TouchableOpacity style={styles.SignOutbutton} onPress={handleBack}>
           <Text style={styles.SignOutbuttontext}>Back</Text>
@@ -235,20 +272,33 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     position: "relative",
     marginTop: 30,
+    marginLeft:10,
+    alignItems: "flex-start",
+    fontWeight:'bold',
+
   },
 
   buttonContainer: {
     // flexDirection: "coulmn",
     justifyContent: "space-between",
     width: "80%",
-    marginTop: 130,
+    marginTop:-5,
   },
-
+  imagecontainer:{
+    alignItems:'center',
+    marginBottom:5,
+  },
   image: {
-    width: 100,
-    height: 100,
-    top: 100,
+    width:'45%',
+    height:'55%' ,
     position: "absolute",
+    color:"black",
+    alignContent:"center",
+    //borderWidth: 1,
+    borderRadius:500,
+    top:30,
+    
+    
   },
   SignOutbuttontext: {
     color: "#eee",
@@ -257,10 +307,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#6c9cf9",
     padding: 10,
     borderRadius: 10,
-    width: "30%",
+    width: "35%",
     alignItems: "center",
-    marginTop: 90,
-    marginLeft: 40,
+    marginTop: 40,
+    marginLeft: 35,
   },
   buttons: {
     flexDirection: "row",
@@ -286,8 +336,9 @@ const styles = StyleSheet.create({
     borderColor: "#6c9cf9",
     position: "absolute",
     zIndex: 0,
-    marginBottom: 15,
+    marginBottom: 1,
     width: "100%",
+    marginTop:1,
   },
   textinputContainer: {
     margin: 25,
@@ -302,9 +353,18 @@ const styles = StyleSheet.create({
     backgroundColor: "grey",
     padding: 10,
     borderRadius: 10,
-    width: "30%",
+    width: "35%",
     alignItems: "center",
-    marginTop: 90,
-    marginLeft: 40,
+    marginTop: 40,
+    marginLeft: 35,
+  },
+  imgbutton:{
+    backgroundColor: "#6c9cf9",
+    padding: 5,
+    borderRadius: 10,
+    width: "20%",
+    alignItems: "center",
+    marginLeft:'95%',
+    marginTop:'60%',
   },
 });

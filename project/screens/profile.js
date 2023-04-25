@@ -20,6 +20,8 @@ export default function Profile({ navigation }) {
   const [LastName, setLastName] = useState("");
   const [Phone, setPhone] = useState("");
   const [birthdate, setBirthdate] = useState("");
+  const [url,setUrl]=useState(null);
+
   const handleSignOut = () => {
     signOut(auth)
       .then(() => {
@@ -40,6 +42,7 @@ export default function Profile({ navigation }) {
       setEmail(data.Email);
       setPhone(data.Phone);
       setBirthdate(data.birthdate);
+      setUrl(data.url);
     } else {
       // docSnap.data() will be undefined in this case
       console.log("No such document!");
@@ -51,7 +54,13 @@ export default function Profile({ navigation }) {
   getUserData();
   return (
     <View style={styles.container}>
-      <Text style={styles.title}> My Profile </Text>
+      <Text style={styles.title}> MyProfile </Text>
+      <View style={styles.imagecontainer}>
+        
+      <Image source={{url:auth.currentUser? auth.currentUser.url :"https://www.bing.com/images/search?view=detailV2&ccid=eCrcK2Bi&id=8BBE3A54A26BEDFFE61006D334E8203E0343F7B0&thid=OIP.eCrcK2BiqwBGE1naWwK3UwHaHa&mediaurl=https%3a%2f%2fwww.pngall.com%2fwp-content%2fuploads%2f5%2fProfile-PNG-File.png&cdnurl=https%3a%2f%2fth.bing.com%2fth%2fid%2fR.782adc2b6062ab00461359da5b02b753%3frik%3dsPdDAz4g6DTTBg%26pid%3dImgRaw%26r%3d0&exph=673&expw=673&q=profile+logo+png&simid=607996898040303146&FORM=IRPRST&ck=569FB476D066C1FB196C59F7C4A67893&selectedIndex=27"
+ }} alt='No img' style={styles.image} />
+
+      </View>
 
       <View style={styles.buttonContainer}>
         <View style={styles.textinputContainer}>
@@ -100,7 +109,7 @@ export default function Profile({ navigation }) {
         </View>
       </View>
 
-      <Image source={profile} style={styles.image} />
+  
       <View style={styles.buttons}>
         <TouchableOpacity style={styles.SignOutbutton} onPress={handleSignOut}>
           <Text style={styles.SignOutbuttontext}>Sign Out </Text>
@@ -131,6 +140,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     position: "relative",
     marginTop: 30,
+    fontWeight:'bold',
   },
 
   buttonContainer: {
@@ -140,11 +150,20 @@ const styles = StyleSheet.create({
     marginTop: 130,
   },
 
+  imagecontainer:{
+    alignItems:'center'
+
+  },
   image: {
-    width: 100,
-    height: 100,
-    top: 100,
+    width:'170%',
+    height:'310%' ,
     position: "absolute",
+    color:"black",
+    alignContent:"center",
+    //borderWidth: 1,
+    borderRadius:500,
+    
+    
   },
   buttons: {
     flexDirection: "row",
@@ -157,10 +176,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#6c9cf9",
     padding: 10,
     borderRadius: 10,
-    width: "30%",
+    width: "35%",
     alignItems: "center",
     marginTop: 40,
-    marginLeft: 40,
+    marginLeft: 35,
   },
 
   labelContainer: {
