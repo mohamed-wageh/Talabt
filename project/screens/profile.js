@@ -51,14 +51,12 @@ export default function Profile({ navigation }) {
   const handleEditProfile = () => {
     navigation.navigate("EditProfile");
   };
-  getUserData();
+  // getUserData();
   return (
     <View style={styles.container}>
       <Text style={styles.title}> MyProfile </Text>
       <View style={styles.imagecontainer}>
-        
-      <Image source={{url:auth.currentUser? auth.currentUser.url :"https://www.bing.com/images/search?view=detailV2&ccid=eCrcK2Bi&id=8BBE3A54A26BEDFFE61006D334E8203E0343F7B0&thid=OIP.eCrcK2BiqwBGE1naWwK3UwHaHa&mediaurl=https%3a%2f%2fwww.pngall.com%2fwp-content%2fuploads%2f5%2fProfile-PNG-File.png&cdnurl=https%3a%2f%2fth.bing.com%2fth%2fid%2fR.782adc2b6062ab00461359da5b02b753%3frik%3dsPdDAz4g6DTTBg%26pid%3dImgRaw%26r%3d0&exph=673&expw=673&q=profile+logo+png&simid=607996898040303146&FORM=IRPRST&ck=569FB476D066C1FB196C59F7C4A67893&selectedIndex=27"
- }} alt='No img' style={styles.image} />
+      <Image source={auth.currentUser.photoURL} style={styles.image} />
 
       </View>
 
@@ -147,7 +145,7 @@ const styles = StyleSheet.create({
     // flexDirection: "coulmn",
     justifyContent: "space-between",
     width: "80%",
-    marginTop: 130,
+    marginTop: 1,
   },
 
   imagecontainer:{
@@ -155,15 +153,12 @@ const styles = StyleSheet.create({
 
   },
   image: {
-    width:'170%',
-    height:'310%' ,
-    position: "absolute",
-    color:"black",
+    width:200,
+    height:200 ,
     alignContent:"center",
     //borderWidth: 1,
     borderRadius:500,
-    
-    
+    // marginBottom:50
   },
   buttons: {
     flexDirection: "row",
