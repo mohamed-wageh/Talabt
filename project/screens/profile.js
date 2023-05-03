@@ -7,6 +7,7 @@ import {
   View,
   Image,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import { useState } from "react";
 import { collection, getDoc, doc, updateDoc, setDoc } from "firebase/firestore";
@@ -20,7 +21,7 @@ export default function Profile({ navigation }) {
   const [LastName, setLastName] = useState("");
   const [Phone, setPhone] = useState("");
   const [birthdate, setBirthdate] = useState("");
-  const [url,setUrl]=useState(null);
+
 
   const handleSignOut = () => {
     signOut(auth)
@@ -42,7 +43,6 @@ export default function Profile({ navigation }) {
       setEmail(data.Email);
       setPhone(data.Phone);
       setBirthdate(data.birthdate);
-      setUrl(data.url);
     } else {
       // docSnap.data() will be undefined in this case
       console.log("No such document!");
@@ -51,15 +51,13 @@ export default function Profile({ navigation }) {
   const handleEditProfile = () => {
     navigation.navigate("EditProfile");
   };
-  // getUserData();
+  getUserData();
   return (
     <View style={styles.container}>
       <Text style={styles.title}> MyProfile </Text>
       <View style={styles.imagecontainer}>
-      <Image source={auth.currentUser.photoURL} style={styles.image} />
-
+      <Image source={auth.currentUser.photoURL?auth.currentUser.photoURL:profile} style={styles.image} />
       </View>
-
       <View style={styles.buttonContainer}>
         <View style={styles.textinputContainer}>
           <View style={styles.labelContainer}>

@@ -11,15 +11,23 @@ import {
   SafeAreaView,
   input,
 } from "react-native";
+import * as ImagePicker from "expo-image-picker";
 import React from "react";
 import { useState } from "react";
 import profile from "../assets/profile.jpg";
 import Loader from "../component/Loader";
 import { collection, getDoc, doc, updateDoc, setDoc } from "firebase/firestore";
 import { auth, db } from "../firebase/firebase";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import {
+  getStorage,
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+  uploadBytes,
+} from "firebase/storage";
 import { storage } from "../firebase/firebase";
 import { updateProfile } from "firebase/auth";
+import Entypo from 'react-native-vector-icons/Entypo'
 export default function EditProfile({ navigation }) {
   const [email, setEmail] = useState("");
   const [FirstName, setFirstName] = useState("");
@@ -30,9 +38,7 @@ export default function EditProfile({ navigation }) {
   const [checkValidFirstName, setCheckValidFirstName] = useState(false);
   const [CheckValidLastName, setCheckValidLastName] = useState(false);
   const [loading, setLoading] = React.useState(false);
-  const [image, setImage] = useState(
-    "https://www.bing.com/images/search?view=detailV2&ccid=eCrcK2Bi&id=8BBE3A54A26BEDFFE61006D334E8203E0343F7B0&thid=OIP.eCrcK2BiqwBGE1naWwK3UwHaHa&mediaurl=https%3a%2f%2fwww.pngall.com%2fwp-content%2fuploads%2f5%2fProfile-PNG-File.png&cdnurl=https%3a%2f%2fth.bing.com%2fth%2fid%2fR.782adc2b6062ab00461359da5b02b753%3frik%3dsPdDAz4g6DTTBg%26pid%3dImgRaw%26r%3d0&exph=673&expw=673&q=profile+logo+png&simid=607996898040303146&FORM=IRPRST&ck=569FB476D066C1FB196C59F7C4A67893&selectedIndex=27"
-  );
+  const [image, setImage] = useState(null);
   const [url, setUrl] = useState(
     "https://www.bing.com/images/search?view=detailV2&ccid=eCrcK2Bi&id=8BBE3A54A26BEDFFE61006D334E8203E0343F7B0&thid=OIP.eCrcK2BiqwBGE1naWwK3UwHaHa&mediaurl=https%3a%2f%2fwww.pngall.com%2fwp-content%2fuploads%2f5%2fProfile-PNG-File.png&cdnurl=https%3a%2f%2fth.bing.com%2fth%2fid%2fR.782adc2b6062ab00461359da5b02b753%3frik%3dsPdDAz4g6DTTBg%26pid%3dImgRaw%26r%3d0&exph=673&expw=673&q=profile+logo+png&simid=607996898040303146&FORM=IRPRST&ck=569FB476D066C1FB196C59F7C4A67893&selectedIndex=27"
   );
@@ -40,10 +46,60 @@ export default function EditProfile({ navigation }) {
   const handleBack = () => {
     navigation.navigate("Profile");
   };
+    const pickImage = async () => {
+      // No permissions request is necessary for launching the image library
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
 
+      console.log(result);
+
+      if (!result.canceled) {
+        setImage(result.assets[0].uri);
+        const uploadedUrl=await uploadImage(result.assets[0].uri);
+        console.log(uploadedUrl);
+        updateUserPhotoUrl(uploadedUrl);
+      }
+    };
+  const uploadImage = async (uri) => {
+    //convert image to blob
+    // Why are we using XMLHttpRequest? See:
+    // https://github.com/expo/expo/issues/2402#issuecomment-443726662
+    const blob = await new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.onload = function () {
+        resolve(xhr.response);
+      };
+      xhr.onerror = function (e) {
+        console.log(e);
+        reject(new TypeError("Network request failed"));
+      };
+      xhr.responseType = "blob";
+      xhr.open("GET", uri, true);
+      xhr.send(null);
+    });
+    try {
+      const storageRef = ref(storage, "images/" + auth.currentUser.uid);
+      const result = await uploadBytes(storageRef, blob);
+      // blob.close()
+      return await getDownloadURL(storageRef);
+      console.log("upload done")
+    } catch (error) {
+      alert(error)
+    }
+    // upload image
+
+      };
+const updateUserPhotoUrl = (url) => {
+  updateProfile(auth.currentUser, {
+            photoURL: url,
+          })
+};
   const handleSave = () => {
     updateUserData();
-    handleSubmit();
     setLoading(true);
     setTimeout(async () => {
       setLoading(false);
@@ -102,34 +158,6 @@ export default function EditProfile({ navigation }) {
     }
   };
 
-  const handleSubmit = () => {
-    const storageRef = ref(storage, auth.currentUser.uid);
-    // 'file' comes from the Blob or File API
-    uploadBytes(storageRef, image)
-      .then((snapshot) => {
-        // console.log('Uploaded a blob or file!');
-        getDownloadURL(storageRef)
-          .then((url) => {
-            setUrl(url);
-            updateProfile(auth.currentUser, {
-              photoURL: url,
-            });
-            // console.log(auth.currentUser.photoURL)
-          })
-          .catch((error) => {
-            window.alert(error.message, "error in url");
-          });
-      })
-      .catch((error) => {
-        window.alert(error.message);
-      });
-  };
-
-  const handleImagChande = (e) => {
-    if (e.target.files[0]) {
-      setImage(e.target.files[0]);
-    }
-  };
 
   return (
     <SafeAreaView style={{ backgroundColor: "white", flex: "1" }}>
@@ -138,21 +166,9 @@ export default function EditProfile({ navigation }) {
         <Text style={styles.title}>EditProfile </Text>
 
         <View style={styles.imagecontainer}>
-          <input
-            type="file"
-            onChange={(e) => {
-              setUrl(e);
-              handleImagChande(e);
-            }}
-          />
-          <Image
-            source={url}
-            alt="No img"
-            style={styles.image}
-            onChange={setUrl}
-          />
-          <TouchableOpacity style={styles.imgbutton} onPress={handleSubmit}>
-            <Text style={styles.SignOutbuttontext}>submit</Text>
+          <Image source={image?{ uri: image }:auth.currentUser.photoURL} style={styles.image} />
+          <TouchableOpacity style={styles.editImage} onPress={pickImage}>
+            <Entypo name="pencil" size={20} color={"gray"} />
           </TouchableOpacity>
         </View>
 
@@ -173,7 +189,6 @@ export default function EditProfile({ navigation }) {
             <View style={styles.inputContainer}>
               <TextInput
                 placeholder="Enter FirstName"
-                keyboardType="email-address"
                 onChangeText={(text) => {
                   setFirstName(text);
                   handleValidFirstName(text);
@@ -218,7 +233,6 @@ export default function EditProfile({ navigation }) {
             <View style={styles.inputContainer}>
               <TextInput
                 placeholder="Enter Phone"
-                keyboardType="phone-pad"
                 onChangeText={(text) => {
                   setPhone(text);
                   handleValidPhone(text);
@@ -241,7 +255,6 @@ export default function EditProfile({ navigation }) {
               <TextInput
                 placeholder="Enter Birthdate"
                 onChangeText={setbirthdate}
-                keyboardType="date"
               />
             </View>
           </View>
@@ -304,16 +317,22 @@ const styles = StyleSheet.create({
   imagecontainer: {
     alignItems: "center",
     marginBottom: 5,
+    width: "100%",
+    height: "30%",
+  },
+  editImage: {
+    alignItems:"flex-end",
+    right:-60,
+    top:-20
   },
   image: {
     width: "45%",
-    height: "55%",
-    position: "absolute",
-    color: "black",
+    height: "70%",
+    // position: "absolute",
     alignContent: "center",
     //borderWidth: 1,
     borderRadius: 500,
-    top: 30,
+    // top: 30,
   },
   SignOutbuttontext: {
     color: "#eee",
