@@ -1,14 +1,12 @@
-import { View, Text, SafeAreaView } from 'react-native'
+import { View, Text } from 'react-native'
 import React from 'react'
 
 const Cart = () => {
   return (
-    <SafeAreaView>
-      <View>
-        <Text>Cart</Text>
-      </View>
-    </SafeAreaView>
-  );
+    <View>
+      <Text>Cart</Text>
+    </View>
+  )
 }
 
-export default Cart;
+export default Cart
