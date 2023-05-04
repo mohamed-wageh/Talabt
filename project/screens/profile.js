@@ -51,12 +51,13 @@ export default function Profile({ navigation }) {
   const handleEditProfile = () => {
     navigation.navigate("EditProfile");
   };
-  getUserData();
+  // getUserData();
   return (
     <View style={styles.container}>
+      <ScrollView>
       <Text style={styles.title}> MyProfile </Text>
       <View style={styles.imagecontainer}>
-      <Image source={auth.currentUser.photoURL?auth.currentUser.photoURL:profile} style={styles.image} />
+      <Image source={profile} />
       </View>
       <View style={styles.buttonContainer}>
         <View style={styles.textinputContainer}>
@@ -119,6 +120,7 @@ export default function Profile({ navigation }) {
         </TouchableOpacity>
       </View>
 
+      </ScrollView>
       <StatusBar style="auto" />
     </View>
   );
