@@ -1,4 +1,4 @@
-import { card,Alert,useWindowDimensions, SafeAreaView,Button, View, Text,StyleSheet,TextInput,ImageBackground,TouchableOpacity} from 'react-native'
+import { Alert,useWindowDimensions, SafeAreaView,Button, View, Text,StyleSheet,TextInput,ImageBackground,TouchableOpacity} from 'react-native'
 import React, { useState } from 'react'
 import { sendPasswordResetEmail } from "firebase/auth";
 import { auth ,db} from "../firebase/firebase";

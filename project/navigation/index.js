@@ -5,7 +5,7 @@ import Welcome from "../screens/Welcome";
 import SignIn from "../screens/SignIn";
 import SignUp from "../screens/SignUp";
 import Forget from "../screens/forget";
-import Profile from "../screens/Profile";
+import Profile from "../screens/profile";
 import Home from "../screens/home";
 import Details from "../screens/detailsScreen";
 import MyCart from "../screens/MyCart";
@@ -15,17 +15,16 @@ import EditProfile from "../screens/EditProfile";
 import Start from "../screens/Start";
 // import Profile from "../screens/profile";
 import Test from "../screens/test";
-
-
-
+import Contact from "../screens/Contact";
 export default function App() {
   const Stack = createNativeStackNavigator();
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Home"
+        initialRouteName="Contact"
         screenOptions={{ headerShown: false }}
       >
+        <Stack.Screen name="contact" component={Contact} />
         <Stack.Screen name="Home" component={tabNavigator} />
         <Stack.Screen name="Welcome" component={Welcome} />
         <Stack.Screen name="SignIn" component={SignIn} />
