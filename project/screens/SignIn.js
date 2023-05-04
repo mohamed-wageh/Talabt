@@ -24,6 +24,8 @@ import {
   signInWithEmailAndPassword,
   GoogleAuthProvider,
   signInWithPopup,
+  signInWithRedirect,
+  getRedirectResult,
 } from "firebase/auth";
 const provider = new GoogleAuthProvider();
 import CustomButton from "../component/CustomButton";
@@ -87,7 +89,8 @@ const SignIn = ({ navigation }) => {
         const token = credential.accessToken;
         // The signed-in user info.
         const user = result.user;
-        navigation.navigate("Profile");
+        navigation.navigate("Home");
+        console.log(user.displayName)
         // IdP data available using getAdditionalUserInfo(result)
         // ...
       })
@@ -103,7 +106,30 @@ const SignIn = ({ navigation }) => {
       });
   };
   const handleSignInWithFacebook = () => {
-    window.alert("handleSignInWithFacebook");
+    signInWithRedirect(auth, provider);
+    getRedirectResult(auth)
+      .then((result) => {
+        // This gives you a Google Access Token. You can use it to access Google APIs.
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential.accessToken;
+        
+        // The signed-in user info.
+        const user = result.user;
+        console.log(user.displayName)
+        navigation.navigate("Home");
+        // IdP data available using getAdditionalUserInfo(result)
+        // ...
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.customData.email;
+        // The AuthCredential type that was used.
+        const credential = GoogleAuthProvider.credentialFromError(error);
+        // ...
+      });
   };
   const handleForgetPasswordPress = () => {
     navigation.navigate("Forget");
@@ -197,7 +223,7 @@ const SignIn = ({ navigation }) => {
                 onPress={handleSubmit}
               />
               <TouchableOpacity
-                onPress={GoogleAuthentication}
+                onPress={handleSignInWithFacebook}
                 style={[
                   styles.button1,
                   { marginTop: 20 },
@@ -213,7 +239,7 @@ const SignIn = ({ navigation }) => {
                 <Text style={[styles.buttonText]}> Continue with Google</Text>
               </TouchableOpacity>
               <TouchableOpacity onPress={handleOnSignUpPress}>
-                <Text style={[styles.buttonText2, { }]}>
+                <Text style={[styles.buttonText2, {}]}>
                   Don't have account ?
                   <Text style={{ color: COLORS.blue }}> Register</Text>
                 </Text>
