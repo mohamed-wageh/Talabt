@@ -8,6 +8,7 @@ import Forget from "../screens/forget";
 import Profile from "../screens/Profile";
 import Home from "../screens/home";
 import Details from "../screens/detailsScreen";
+import MyCart from "../screens/MyCart";
 import COLORS from "../constant/colors";
 import tabNavigator from "./tabNavigator";
 import EditProfile from "../screens/EditProfile";
@@ -32,6 +33,8 @@ export default function App() {
         <Stack.Screen name="Forget" component={Forget} />
         <Stack.Screen name="EditProfile" component={EditProfile} />
         <Stack.Screen name="Details" component={Details} />
+        <Stack.Screen name="MyCart" component={MyCart} />
+
       </Stack.Navigator>
     </NavigationContainer>
   );

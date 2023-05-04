@@ -5,7 +5,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import Home from "../screens/home";
 import Details from "../screens/detailsScreen";
 import Profile from "../screens/Profile";
-import cart from "../screens/cart";
+import MyCart from "../screens/MyCart";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import FeatherIcon from "react-native-vector-icons/Feather";
 import COLORS from "../constant/colors";
@@ -19,6 +19,8 @@ const HomeStack = () => {
         <Stack.Screen name="Home3" component={Home} />
         <Stack.Screen name="Details" component={Details} />
         <Stack.Screen name="EditProfile" component={EditProfile} />
+        <Stack.Screen name="MyCart" component={MyCart} />
+
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -43,7 +45,7 @@ const TabNavigator = () => {
       />
       <Tab.Screen
         name="cart"
-        component={cart}
+        component={MyCart}
         options={{
           tabBarBadge: 3,
           tabBarIcon: ({ color, size }) => (
