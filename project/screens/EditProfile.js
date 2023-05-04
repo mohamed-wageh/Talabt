@@ -93,7 +93,6 @@ export default function EditProfile({ navigation }) {
       if (!result.canceled) {
         setImage(result.assets[0].uri);
         const uploadedUrl=await uploadImage(result.assets[0].uri);
-        console.log(uploadedUrl);
         updateUserPhotoUrl(uploadedUrl);
       }
     };

@@ -24,6 +24,7 @@ export default function Profile({ navigation }) {
 useEffect(() => {
   const unsubscribe = navigation.addListener("focus", () => {
     getUserData();
+    
   });
   return unsubscribe;
 }, [navigation]);
