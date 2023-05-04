@@ -45,7 +45,6 @@ const TabNavigator = () => {
         name="cart"
         component={cart}
         options={{
-          tabBarBadge: 3,
           tabBarIcon: ({ color, size }) => (
             <FeatherIcon name="shopping-cart" color={color} size={size} />
           ),

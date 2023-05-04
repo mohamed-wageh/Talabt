@@ -166,7 +166,7 @@ const updateUserPhotoUrl = (url) => {
         <Text style={styles.title}>EditProfile </Text>
 
         <View style={styles.imagecontainer}>
-          <Image source={image?{ uri: image }:auth.currentUser.photoURL} style={styles.image} />
+          <Image source={image?{ uri: image }:auth.currentUser.photoURL?auth.currentUser.photoURL:profile} style={styles.image} />
           <TouchableOpacity style={styles.editImage} onPress={pickImage}>
             <Entypo name="pencil" size={20} color={"gray"} />
           </TouchableOpacity>
