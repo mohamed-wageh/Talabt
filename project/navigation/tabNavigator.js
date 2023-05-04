@@ -19,7 +19,6 @@ const HomeStack = () => {
         <Stack.Screen name="Home3" component={Home} />
         <Stack.Screen name="Details" component={Details} />
         <Stack.Screen name="EditProfile" component={EditProfile} />
-        <Stack.Screen name="MyCart" component={MyCart} />
 
       </Stack.Navigator>
     </NavigationContainer>
