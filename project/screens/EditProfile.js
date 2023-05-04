@@ -192,13 +192,22 @@ const updateUserPhotoUrl = (url) => {
   };
 
   return (
-    <SafeAreaView style={{ backgroundColor: "white", flex: "1" }}>
+    <SafeAreaView style={{ backgroundColor: "white", height: "100%" }}>
       <Loader visible={loading} />
       <View style={styles.container}>
         <Text style={styles.title}>EditProfile </Text>
 
         <View style={styles.imagecontainer}>
-          <Image source={image?{ uri: image }:auth.currentUser.photoURL?auth.currentUser.photoURL:profile} style={styles.image} />
+          <Image
+            source={
+              image
+                ? { uri: image }
+                : auth.currentUser.photoURL
+                ? { uri: auth.currentUser.photoURL }
+                : profile
+            }
+            style={styles.image}
+          />
           <TouchableOpacity style={styles.editImage} onPress={pickImage}>
             <Entypo name="pencil" size={20} color={"gray"} />
           </TouchableOpacity>
