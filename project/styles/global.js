@@ -26,5 +26,6 @@ export const globalStyles = StyleSheet.create({
   },
   logo: {
     width: "100%",
+   
   },
 });

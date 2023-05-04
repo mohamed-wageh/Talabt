@@ -15,6 +15,7 @@ import EditProfile from "../screens/EditProfile";
 import Start from "../screens/Start";
 // import Profile from "../screens/profile";
 import Test from "../screens/test";
+import SplashScreen from "../screens/SplashScreen";
 
 
 
@@ -23,7 +24,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Home"
+        initialRouteName="SplashScreen"
         screenOptions={{ headerShown: false }}
       >
         <Stack.Screen name="Home" component={tabNavigator} />
@@ -34,6 +35,7 @@ export default function App() {
         <Stack.Screen name="EditProfile" component={EditProfile} />
         <Stack.Screen name="Details" component={Details} />
         <Stack.Screen name="MyCart" component={MyCart} />
+        <Stack.Screen name="SplashScreen" component={SplashScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
