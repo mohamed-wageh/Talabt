@@ -23,7 +23,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Welcome"
+        initialRouteName="Home"
         screenOptions={{ headerShown: false }}
       >
         <Stack.Screen name="Home" component={tabNavigator} />
@@ -34,7 +34,6 @@ export default function App() {
         <Stack.Screen name="EditProfile" component={EditProfile} />
         <Stack.Screen name="Details" component={Details} />
         <Stack.Screen name="MyCart" component={MyCart} />
-
       </Stack.Navigator>
     </NavigationContainer>
   );
