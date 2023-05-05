@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { collection, getDoc, doc, updateDoc, setDoc } from "firebase/firestore";
 
 import profile from "../assets/profile.jpg";
@@ -21,8 +21,13 @@ export default function Profile({ navigation }) {
   const [LastName, setLastName] = useState("");
   const [Phone, setPhone] = useState("");
   const [birthdate, setBirthdate] = useState("");
-
-
+useEffect(() => {
+  const unsubscribe = navigation.addListener("focus", () => {
+    getUserData();
+    
+  });
+  return unsubscribe;
+}, [navigation]);
   const handleSignOut = () => {
     signOut(auth)
       .then(() => {
@@ -51,12 +56,87 @@ export default function Profile({ navigation }) {
   const handleEditProfile = () => {
     navigation.navigate("EditProfile");
   };
-  getUserData();
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}> MyProfile </Text>
+    <ScrollView style={styles.container}>
+      <StatusBar style="auto" />
+      <View style={styles.container}>
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}> MyProfile </Text>
+        </View>
+        <View style={styles.imagecontainer}>
+          <Image
+            source={
+              auth.currentUser.photoURL ? {uri:auth.currentUser.photoURL} : profile
+            }
+            style={styles.image}
+          />
+          <View style={styles.buttonContainer}>
+            <View style={styles.textinputContainer}>
+              <View style={styles.labelContainer}>
+                <Text style={styles.labeltext}>Email Address</Text>
+              </View>
+              <View style={styles.inputContainer}>
+                <Text>{auth.currentUser.email}</Text>
+              </View>
+            </View>
+          </View>
+        </View>
+        <View style={styles.textinputContainer}>
+          <View style={styles.labelContainer}>
+            <Text style={styles.labeltext}>FirstName</Text>
+          </View>
+          <View style={styles.inputContainer}>
+            <Text>{FirstName}</Text>
+          </View>
+        </View>
+        <View style={styles.textinputContainer}>
+          <View style={styles.labelContainer}>
+            <Text style={styles.labeltext}>LastName</Text>
+          </View>
+          <View style={styles.inputContainer}>
+            <Text>{LastName}</Text>
+          </View>
+        </View>
+        <View style={styles.textinputContainer}>
+          <View style={styles.labelContainer}>
+            <Text style={styles.labeltext}>Phone</Text>
+          </View>
+          <View style={styles.inputContainer}>
+            <Text>{Phone}</Text>
+          </View>
+        </View>
+        <View style={styles.textinputContainer}>
+          <View style={styles.labelContainer}>
+            <Text style={styles.labeltext}>Birthdate</Text>
+          </View>
+          <View style={styles.inputContainer}>
+            <Text>{birthdate}</Text>
+          </View>
+        </View>
+
+        <View style={styles.buttons}>
+          <TouchableOpacity
+            style={styles.SignOutbutton}
+            onPress={handleSignOut}
+          >
+            <Text style={styles.SignOutbuttontext}>Sign Out </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.SignOutbutton}
+            onPress={handleEditProfile}
+          >
+            <Text style={styles.SignOutbuttontext}>Edit Profile </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </ScrollView>
+  );
+}
+{/* <Text style={styles.title}> MyProfile </Text>
       <View style={styles.imagecontainer}>
-      <Image source={auth.currentUser.photoURL?auth.currentUser.photoURL:profile} style={styles.image} />
+      <Image source={profile} />
       </View>
       <View style={styles.buttonContainer}>
         <View style={styles.textinputContainer}>
@@ -117,17 +197,16 @@ export default function Profile({ navigation }) {
         >
           <Text style={styles.SignOutbuttontext}>Edit Profile </Text>
         </TouchableOpacity>
-      </View>
-
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+      </View> */}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
+    height:'100%'
+    // alignItems: "center",
+  },
+  titleContainer: {
     alignItems: "center",
   },
   title: {
@@ -136,26 +215,26 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     position: "relative",
     marginTop: 30,
-    fontWeight:'bold',
+    fontWeight: "bold",
+    alignItems: "center",
   },
 
   buttonContainer: {
     // flexDirection: "coulmn",
-    justifyContent: "space-between",
-    width: "80%",
+    justifyContent: "center",
+    width: "100%",
     marginTop: 1,
   },
 
-  imagecontainer:{
-    alignItems:'center'
-
+  imagecontainer: {
+    alignItems: "center",
   },
   image: {
-    width:200,
-    height:200 ,
-    alignContent:"center",
+    width: 200,
+    height: 200,
+    alignContent: "center",
     //borderWidth: 1,
-    borderRadius:500,
+    borderRadius: 500,
     // marginBottom:50
   },
   buttons: {

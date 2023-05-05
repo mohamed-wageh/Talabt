@@ -26,6 +26,7 @@ export const Items = [
       require("../database/images/bed/a2.jpg"),
       require("../database/images/bed/a3.jpg"),
     ],
+    count: 1,
   },
   {
     id: 2,
@@ -42,6 +43,7 @@ export const Items = [
       require("../database/images/bed/b2.jpg"),
       require("../database/images/bed/b3.jpg"),
     ],
+    count: 1,
   },
   {
     id: 3,
@@ -59,6 +61,7 @@ export const Items = [
       require("../database/images/bed/c2.jpg"),
       require("../database/images/bed/c3.jpg"),
     ],
+    count: 1,
   },
   {
     id: 4,
@@ -76,6 +79,7 @@ export const Items = [
       require("../database/images/chair/a2.jpg"),
       require("../database/images/chair/a3.jpg"),
     ],
+    count: 1,
   },
   {
     id: 5,
@@ -92,6 +96,7 @@ export const Items = [
       require("../database/images/chair/b2.jpg"),
       require("../database/images/chair/b3.jpg"),
     ],
+    count: 1,
   },
   {
     id: 6,
@@ -108,6 +113,7 @@ export const Items = [
       require("../database/images/chair/c2.jpg"),
       require("../database/images/chair/c3.jpg"),
     ],
+    count: 1,
   },
   {
     id: 7,
@@ -124,5 +130,6 @@ export const Items = [
       require("../database/images/chair/d2.jpg"),
       require("../database/images/chair/d3.jpg"),
     ],
+    count: 1,
   },
 ];

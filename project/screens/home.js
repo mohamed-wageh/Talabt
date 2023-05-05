@@ -278,7 +278,7 @@ const Home = ({ navigation }) => {
                   marginLeft: 10,
                 }}
               >
-                41
+                {beds.length}
               </Text>
             </View>
             <Text
@@ -341,7 +341,7 @@ const Home = ({ navigation }) => {
                   marginLeft: 10,
                 }}
               >
-                78
+                {accessory.length}
               </Text>
             </View>
             <Text

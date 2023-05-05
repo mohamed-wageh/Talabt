@@ -5,7 +5,7 @@ import Welcome from "../screens/Welcome";
 import SignIn from "../screens/SignIn";
 import SignUp from "../screens/SignUp";
 import Forget from "../screens/forget";
-import Profile from "../screens/Profile";
+import Profile from "../screens/profile";
 import Home from "../screens/home";
 import Details from "../screens/detailsScreen";
 import MyCart from "../screens/MyCart";
@@ -16,6 +16,7 @@ import Start from "../screens/Start";
 import CheckOut from"../screens/CheckOut"
 // import Profile from "../screens/profile";
 import Test from "../screens/test";
+import SplashScreen from "../screens/SplashScreen";
 
 
 
@@ -24,9 +25,11 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="CheckOut"
+        
+        initialRouteName="SplashScreen"
         screenOptions={{ headerShown: false }}
       >
+        <Stack.Screen name="contact" component={Contact} />
         <Stack.Screen name="Home" component={tabNavigator} />
         <Stack.Screen name="Welcome" component={Welcome} />
         <Stack.Screen name="SignIn" component={SignIn} />
@@ -36,7 +39,7 @@ export default function App() {
         <Stack.Screen name="Details" component={Details} />
         <Stack.Screen name="MyCart" component={MyCart} />
         <Stack.Screen name="CheckOut" component={CheckOut} />
-
+        <Stack.Screen name="SplashScreen" component={SplashScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
