@@ -13,6 +13,7 @@ import COLORS from "../constant/colors";
 import tabNavigator from "./tabNavigator";
 import EditProfile from "../screens/EditProfile";
 import Start from "../screens/Start";
+import CheckOut from"../screens/CheckOut"
 // import Profile from "../screens/profile";
 import Test from "../screens/test";
 
@@ -23,7 +24,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Home"
+        initialRouteName="CheckOut"
         screenOptions={{ headerShown: false }}
       >
         <Stack.Screen name="Home" component={tabNavigator} />
@@ -34,6 +35,7 @@ export default function App() {
         <Stack.Screen name="EditProfile" component={EditProfile} />
         <Stack.Screen name="Details" component={Details} />
         <Stack.Screen name="MyCart" component={MyCart} />
+        <Stack.Screen name="CheckOut" component={CheckOut} />
 
       </Stack.Navigator>
     </NavigationContainer>
