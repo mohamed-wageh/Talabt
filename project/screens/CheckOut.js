@@ -13,7 +13,7 @@ import {
 //import { RadioButton } from 'react-native-paper';
 import Input from "../component/Input";
 import { Formik, Form, Field } from 'formik';
-import {COLOURS, Items} from '../database/Database';
+import {COLOURS, Items} from '../database/database';
 
 
 
@@ -23,6 +23,8 @@ const CheckOut = () => {
   const [Count] = useState(1);
   
   const handledone = () => {
+    
+    ToastAndroid.show("Items will be Deliverd SOON!", ToastAndroid.SHORT);
     navigation.navigate("Home");
   };
   

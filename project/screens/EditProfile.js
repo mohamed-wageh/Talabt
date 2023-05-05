@@ -192,6 +192,7 @@ const updateUserPhotoUrl = (url) => {
 
   return (
     <SafeAreaView style={{ backgroundColor: "white", height: "100%" }}>
+              <ScrollView showsVerticalScrollIndicator={false}>
       <Loader visible={loading} />
       <View style={styles.container}>
         <Text style={styles.title}>EditProfile </Text>
@@ -327,6 +328,7 @@ const updateUserPhotoUrl = (url) => {
         </View>
         <StatusBar style="auto" />
       </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }

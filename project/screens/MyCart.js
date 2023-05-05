@@ -98,16 +98,17 @@ const MyCart = ({ navigation }) => {
 
   //checkout
 
-  const checkOut = async () => {
-    try {
-      await AsyncStorage.removeItem("cartItems");
-    } catch (error) {
-      return error;
-    }
+  const checkOut =  () => {
+    navigation.navigate("CheckOut");
+    // try {
+    //   await AsyncStorage.removeItem("cartItems");
+    // } catch (error) {
+    //   return error;
+    // }
 
-    ToastAndroid.show("Items will be Deliverd SOON!", ToastAndroid.SHORT);
+    // ToastAndroid.show("Items will be Deliverd SOON!", ToastAndroid.SHORT);
 
-    navigation.navigate("Home");
+
   };
 
   const renderProducts = (data, index) => {
