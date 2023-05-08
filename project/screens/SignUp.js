@@ -241,8 +241,8 @@ const SignUp = ({ navigation }) => {
                 setPassword(text);
                 setPasswordError("");
               }}
-              // password
-              secureTextEntry= {true}        
+              password
+              // secureTextEntry= {true}        
               />
             {passwordError ? (
               <Text style={styles.errors}>{passwordError}</Text>
@@ -256,7 +256,8 @@ const SignUp = ({ navigation }) => {
                 setConfirmPassword(text);
                 setConfirmPasswordError("");
               }}
-              secureTextEntry= {true}        
+              password
+              // secureTextEntry= {true}        
             />
             {ConfirmPasswordError ? (
               <Text style={styles.errors}>{ConfirmPasswordError}</Text>
