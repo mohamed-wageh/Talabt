@@ -1,27 +1,32 @@
 import React, {useState, useEffect} from 'react';
 import {
-    Button,
     StyleSheet,
     Text,
     TextInput,
     View,
-    Image,
     TouchableOpacity,
     ScrollView,
-    SafeAreaView,
+    SafeAreaView,Dimensions,
+    ToastAndroid,
 } from 'react-native';
-//import { RadioButton } from 'react-native-paper';
+import RadioForm, {
+  RadioButton,
+  RadioButtonInput,
+  RadioButtonLabel,
+} from "react-native-simple-radio-button";
+import Entypo from "react-native-vector-icons/Entypo";
 import Input from "../component/Input";
 import { Formik, Form, Field } from 'formik';
-import {COLOURS, Items} from '../database/database';
+import {COLOURS, Items} from '../database/model/database';
+import Ionicons from "react-native-vector-icons/Ionicons";
 
+const CheckOut = ({navigation}) => {
 
-
-const CheckOut = () => {
-  const [product, setProduct] = useState();
-  const [total, setTotal] = useState(null);
-  const [Count] = useState(1);
-  
+  const paymentMethode = [
+    {label:"visa",value:0},
+    {label:"Cash",value:1},
+  ]
+  const [value,setValue]=useState(0);
   const handledone = () => {
     
     ToastAndroid.show("Items will be Deliverd SOON!", ToastAndroid.SHORT);
@@ -29,158 +34,47 @@ const CheckOut = () => {
   };
   
   return (
-    <SafeAreaView style={{ backgroundColor: "white"}}>
-         <ScrollView showsVerticalScrollIndicator={false}>
-      <View style={styles.container}>
-       
-        <Text style={styles.title}>Full Your Address  Info : </Text>
-        
-    <Input
-             label="Region"
-             />        
-    <Input
-             label="City"
-           />
-    <Input
+    <SafeAreaView style={{ backgroundColor: "white" }}>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={styles.container}>
+          <TouchableOpacity onPress={() => navigation.goBack("Cart")}>
+            <Entypo
+              name="chevron-left"
+              style={{
+                fontSize: 18,
+                color: COLOURS.backgroundDark,
+                padding: 12,
+                backgroundColor: COLOURS.white,
+                borderRadius: 10,
+              }}
+            />
+          </TouchableOpacity>
+          <Text style={styles.title}>Full Your Address Info : </Text>
+          <View style={{ width: "100%",paddingRight:15 }}>
+            <Input label="Region" />
+            <Input label="City" />
+            <Input label="Address" />
+            <Input label="Unit Number" />
 
-             label="Address"
-             />
-     <Input
-            label="Unit Number"
-             />
+            <Input label="Floor" />
+          </View>
+          <Text style={styles.title}>Select Your payment Method : </Text>
 
-     <Input
-            label="Floor"
-             />
+          <RadioForm radio_props={paymentMethode} initial={value} onPress={(value)=>{setValue(value)}}/>
 
-    <Text style={styles.title}>Select Your Payment Info : </Text>
-
-    <TextInput  
-            value="cash"
-          
-    />    
-
-    <TextInput  
-            value="visa"
-    />    
-
-<View
+          <View
             style={{
               paddingHorizontal: 16,
               marginTop: 40,
-              marginBottom: 80,
-
-            }}>
-            <Text
-              style={{
-                fontSize: 16,
-                color: COLOURS.black,
-                fontWeight: '500',
-                letterSpacing: 1,
-                marginBottom: 20,
-              }}>
-              Order Info
-            </Text>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                marginBottom: 8,
-              }}>
-              <Text
-                style={{
-                  fontSize: 12,
-                  fontWeight: '400',
-                  maxWidth: '80%',
-                  color: COLOURS.black,
-                  opacity: 0.5,
-                }}>
-                Subtotal
-              </Text>
-              <Text
-                style={{
-                  fontSize: 12,
-                  fontWeight: '400',
-                  color: COLOURS.black,
-                  opacity: 0.8,
-                }}>
-                ${total}.00
-              </Text>
-            </View>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                marginBottom: 22,
-              }}>
-              <Text
-                style={{
-                  fontSize: 12,
-                  fontWeight: '400',
-                  maxWidth: '80%',
-                  color: COLOURS.black,
-                  opacity: 0.5,
-                }}>
-                Shipping Tax
-              </Text>
-              <Text
-                style={{
-                  fontSize: 12,
-                  fontWeight: '400',
-                  color: COLOURS.black,
-                  opacity: 0.8,
-                }}>
-                ${total / 20}
-              </Text>
-            </View>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-              }}>
-              <Text
-                style={{
-                  fontSize: 12,
-                  fontWeight: '400',
-                  maxWidth: '80%',
-                  color: COLOURS.black,
-                  opacity: 0.5,
-                }}>
-                Total
-              </Text>
-              <Text
-                style={{
-                  fontSize: 18,
-                  fontWeight: '500',
-                  color: COLOURS.black,
-                }}>
-                ${total + total / 20}
-              </Text>
-            </View>
-          </View>
-        
-      <View
-        style={{
-          position: 'absolute',
-          bottom: 10,
-          height: '8%',
-          width: '100%',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
-      </View>
-      <TouchableOpacity
-       style={styles.button} 
-       onPress={handledone}>
-            <Text style={styles.buttontext}>pay now</Text>
+              marginBottom: 40,
+            }}
+          ></View>
+          <TouchableOpacity style={styles.button} onPress={handledone}>
+            <Text style={styles.buttontext}>Pay Now</Text>
           </TouchableOpacity>
-    </View>
-
-</ScrollView>
-</SafeAreaView>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 

@@ -51,23 +51,23 @@ const SignUp = ({ navigation }) => {
       createUserWithEmailAndPassword(auth, email, Password)
         .then((userCredential) => {
           const user = userCredential.user;
-          window.alert("account created");
+          alert("account created");
           navigation.navigate("SignIn");
-          addUserToDatabase();
+          addUserToDatabase(user.uid);
         })
         .catch((error) => {
           window.alert(error.message);
         });
     }, 3000);
   };
-  const addUserToDatabase = async() => {
-    await setDoc(doc(db, "users", auth.currentUser.uid), {
+  const addUserToDatabase = async(uid) => {
+    await setDoc(doc(db, "users", uid), {
       Email: email,
       FirstName: FirstName,
       LastName: LastName,
       Phone: Phone,
       birthdate:""
-    });
+    },console.log("added"));
   };
   const onChangeEmail = (text) => {
     handleChange(text);
@@ -125,6 +125,7 @@ const SignUp = ({ navigation }) => {
     if (isValid) {
       // submit form data to backend or perform other actions
       handleRegister();
+      
     }
   };
   const handleSignInWithGoogle = () => {

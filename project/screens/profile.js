@@ -12,7 +12,7 @@ import {
 import { useState, useEffect } from "react";
 import { collection, getDoc, doc, updateDoc, setDoc } from "firebase/firestore";
 
-import profile from "../assets/profile.jpg";
+import profile from "../assets/img/profile.jpg";
 import { signOut } from "firebase/auth";
 import { auth, db } from "../firebase/firebase";
 export default function Profile({ navigation }) {
@@ -230,8 +230,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   image: {
-    width: 200,
-    height: 200,
+    width: 150,
+    height: 150,
     alignContent: "center",
     //borderWidth: 1,
     borderRadius: 500,

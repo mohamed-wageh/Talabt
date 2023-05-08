@@ -57,7 +57,7 @@ return (
   placeholder="Enter your email address"
   onChangeText={Text => handleCheckEmail(Text)}
   />
-  {CheckValidEmail ? (<Text style={styles.Textfailed}>wrong format Email</Text>) : (
+  {CheckValidEmail ? (<Text style={styles.Textfailed}>please enter valid email</Text>) : (
   <Text style={styles.Textfailed}> </Text>)}
    <CustomButton text="Send Link" bgColor={COLORS.hex} onPress={handleForgotPassword}/>
    <CustomButton text="Back to Sign in"  type='Link' bgColor={COLORS.white} txColor={COLORS.hex} onPress={handleOnSignInPress}/>

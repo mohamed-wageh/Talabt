@@ -28,4 +28,10 @@ export const globalStyles = StyleSheet.create({
     width: "100%",
    
   },
+  Textfailed:{
+    color: COLORS.red,
+    width:'100%',
+    fontWeight:'bold',
+  },
+
 });
