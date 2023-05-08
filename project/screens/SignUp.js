@@ -100,6 +100,9 @@ const SignUp = ({ navigation }) => {
     if (Phone.trim() === "") {
       setPhoneError("Please Enter your Phone Number");
       isValid = false;
+    } else if (Phone.trim().length < 11) {
+      setPhoneError("Phone Number must be at least 11 numbers");
+      isValid = false;
     }
     
     if (Password.trim() === "") {
