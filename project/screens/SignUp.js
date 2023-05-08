@@ -349,13 +349,5 @@ const styles = StyleSheet.create({
     color: COLORS.red,
     fontSize: 12,
   },
-  // roundButton1: {
-  //   width: 50,
-  //   height: 50,
-  //   justifyContent: 'center',
-  //   alignItems: 'center',
-  //   padding: 10,
-  //   borderRadius: 100,
-  //   backgroundColor: 'white',
-  // },
+
 });
