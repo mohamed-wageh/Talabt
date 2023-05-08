@@ -1,7 +1,4 @@
 import * as React from "react";
-// import { NavigationContainer } from '@react-navigation/native';
-// import { createStackNavigator } from '@react-navigation/stack';
-// import Video from 'react-native-video';
 import { View, Text, ImageBackground , useWindowDimensions, Image , StyleSheet } from 'react-native'
 import backGround from "../assets/img/splash1.jpg";
 import { globalStyles } from "../styles/global";

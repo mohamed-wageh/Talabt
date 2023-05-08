@@ -41,22 +41,6 @@ const SignIn = ({ navigation }) => {
   const [errors, setErrors] = React.useState({});
   const [loading, setLoading] = React.useState(false);
 
-  // const validate = async () => {
-  //   Keyboard.dismiss();
-  //   let isValid = true;
-  //   if (!inputs.email) {
-  //     handleError('Please input email', 'email');
-  //     isValid = false;
-  //   }
-  //   if (!inputs.password) {
-  //     handleError('Please input password', 'password');
-  //     isValid = false;
-  //   }
-  //   if (isValid) {
-  //     handleSignIn();
-  //   }
-  // };
-
   const SignInvalidattion =yup.object().shape({
     email:yup.string().email('please enter valid email').required('Email address is required'),
     password:yup.string().min(6,({min})=> 'password must be at least 6 characters').required('password is required') 
@@ -134,13 +118,7 @@ const SignIn = ({ navigation }) => {
   const handleForgetPasswordPress = () => {
     navigation.navigate("Forget");
   };
-  // const handleOnchange = (text, input) => {
-  //   setInputs(prevState => ({...prevState, [input]: text}));
-  // };
 
-  // const handleError = (error, input) => {
-  //   setErrors(prevState => ({...prevState, [input]: error}));
-  // };
   return (
     <Formik
       initialValues={{ email: "", password: "" }}
