@@ -5,7 +5,7 @@ import Welcome from "../screens/Welcome";
 import SignIn from "../screens/SignIn";
 import SignUp from "../screens/SignUp";
 import Forget from "../screens/forget";
-import Profile from "../screens/Profile";
+import Profile from "../screens/profile";
 import Home from "../screens/home";
 import Details from "../screens/detailsScreen";
 import MyCart from "../screens/MyCart";
@@ -14,10 +14,9 @@ import tabNavigator from "./tabNavigator";
 import EditProfile from "../screens/EditProfile";
 import Start from "../screens/Start";
 import CheckOut from"../screens/CheckOut"
-// import Profile from "../screens/profile";
 import Test from "../screens/test";
 import SplashScreen from "../screens/SplashScreen";
-import Contact from "../screens/Contact";
+
 
 
 
@@ -26,18 +25,11 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-<<<<<<< HEAD
-        initialRouteName="Welcome"
-        screenOptions={{ headerShown: false }}
-      >
-        
-=======
         
         initialRouteName="SplashScreen"
         screenOptions={{ headerShown: false }}
       >
-        <Stack.Screen name="Contact" component={Contact} />
->>>>>>> e7b63e79a42d1d523ab2298749d83fe813f82162
+        
         <Stack.Screen name="Home" component={tabNavigator} />
         <Stack.Screen name="Welcome" component={Welcome} />
         <Stack.Screen name="SignIn" component={SignIn} />

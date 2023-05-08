@@ -5,19 +5,21 @@ import {
     Text,
     TextInput,
     View,
-    Image,
+    Image,StatusBar,
     TouchableOpacity,
     ScrollView,
-    SafeAreaView,
+    SafeAreaView,Dimensions,
+    Animated,
+    ToastAndroid,
 } from 'react-native';
 //import { RadioButton } from 'react-native-paper';
+import Entypo from "react-native-vector-icons/Entypo";
 import Input from "../component/Input";
 import { Formik, Form, Field } from 'formik';
 import {COLOURS, Items} from '../database/database';
+import Ionicons from "react-native-vector-icons/Ionicons";
 
-
-
-const CheckOut = () => {
+const CheckOut = ({navigation}) => {
 
   
   const handledone = () => {
@@ -30,7 +32,18 @@ const CheckOut = () => {
     <SafeAreaView style={{ backgroundColor: "white"}}>
          <ScrollView showsVerticalScrollIndicator={false}>
       <View style={styles.container}>
-       
+      <TouchableOpacity onPress={() => navigation.goBack("Cart")}>
+              <Entypo
+                name="chevron-left"
+                style={{
+                  fontSize: 18,
+                  color: COLOURS.backgroundDark,
+                  padding: 12,
+                  backgroundColor: COLOURS.white,
+                  borderRadius: 10,
+                }}
+              />
+            </TouchableOpacity>
         <Text style={styles.title}>Full Your Address  Info : </Text>
         
     <Input
