@@ -192,8 +192,8 @@ const updateUserPhotoUrl = (url) => {
 
   return (
     <SafeAreaView style={{ backgroundColor: "white", height: "100%" }}>
-              <ScrollView showsVerticalScrollIndicator={false}>
       <Loader visible={loading} />
+              <ScrollView showsVerticalScrollIndicator={false}>
       <View style={styles.container}>
         <Text style={styles.title}>EditProfile </Text>
 
@@ -364,12 +364,12 @@ const styles = StyleSheet.create({
   },
   editImage: {
     alignItems:"flex-end",
-    right:-60,
+    right:-70,
     top:-20
   },
   image: {
-    width: "45%",
-    height: "70%",
+    width: 150,
+    height: 150,
     // position: "absolute",
     alignContent: "center",
     //borderWidth: 1,
@@ -440,7 +440,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     width: "20%",
     alignItems: "center",
-    marginLeft: "95%",
+    marginLeft: "90%",
     marginTop: "60%",
   },
 });

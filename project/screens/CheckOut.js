@@ -18,9 +18,7 @@ import {COLOURS, Items} from '../database/database';
 
 
 const CheckOut = () => {
-  const [product, setProduct] = useState();
-  const [total, setTotal] = useState(null);
-  const [Count] = useState(1);
+
   
   const handledone = () => {
     
@@ -68,114 +66,16 @@ const CheckOut = () => {
             style={{
               paddingHorizontal: 16,
               marginTop: 40,
-              marginBottom: 80,
+              marginBottom: 40,
 
             }}>
-            <Text
-              style={{
-                fontSize: 16,
-                color: COLOURS.black,
-                fontWeight: '500',
-                letterSpacing: 1,
-                marginBottom: 20,
-              }}>
-              Order Info
-            </Text>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                marginBottom: 8,
-              }}>
-              <Text
-                style={{
-                  fontSize: 12,
-                  fontWeight: '400',
-                  maxWidth: '80%',
-                  color: COLOURS.black,
-                  opacity: 0.5,
-                }}>
-                Subtotal
-              </Text>
-              <Text
-                style={{
-                  fontSize: 12,
-                  fontWeight: '400',
-                  color: COLOURS.black,
-                  opacity: 0.8,
-                }}>
-                ${total}.00
-              </Text>
-            </View>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                marginBottom: 22,
-              }}>
-              <Text
-                style={{
-                  fontSize: 12,
-                  fontWeight: '400',
-                  maxWidth: '80%',
-                  color: COLOURS.black,
-                  opacity: 0.5,
-                }}>
-                Shipping Tax
-              </Text>
-              <Text
-                style={{
-                  fontSize: 12,
-                  fontWeight: '400',
-                  color: COLOURS.black,
-                  opacity: 0.8,
-                }}>
-                ${total / 20}
-              </Text>
-            </View>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-              }}>
-              <Text
-                style={{
-                  fontSize: 12,
-                  fontWeight: '400',
-                  maxWidth: '80%',
-                  color: COLOURS.black,
-                  opacity: 0.5,
-                }}>
-                Total
-              </Text>
-              <Text
-                style={{
-                  fontSize: 18,
-                  fontWeight: '500',
-                  color: COLOURS.black,
-                }}>
-                ${total + total / 20}
-              </Text>
-            </View>
-          </View>
+       
         
-      <View
-        style={{
-          position: 'absolute',
-          bottom: 10,
-          height: '8%',
-          width: '100%',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
       </View>
       <TouchableOpacity
        style={styles.button} 
        onPress={handledone}>
-            <Text style={styles.buttontext}>pay now</Text>
+            <Text style={styles.buttontext}>Pay Now</Text>
           </TouchableOpacity>
     </View>
 
