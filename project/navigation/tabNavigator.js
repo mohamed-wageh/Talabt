@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
 import Home from "../screens/home";
 import Details from "../screens/detailsScreen";
-import Profile from "../screens/Profile";
+import Profile from "../screens/profile";
 import MyCart from "../screens/MyCart";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import FeatherIcon from "react-native-vector-icons/Feather";
