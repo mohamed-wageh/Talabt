@@ -10,8 +10,6 @@ import { doc, setDoc } from "firebase/firestore";
 import { globalStyles } from "../styles/global";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import Loader from "../component/Loader";
-import { Formik, Form, Field } from "formik";
-import * as yup from "yup";
 import { auth, db } from "../firebase/firebase";
 import CustomButton from "../component/CustomButton";
 import React from "react";
@@ -26,6 +24,7 @@ import {
   Button,
   TouchableOpacity,
   Alert,
+  
 } from "react-native";
 import Input from "../component/Input";
 const provider = new GoogleAuthProvider();
@@ -76,35 +75,56 @@ const SignUp = ({ navigation }) => {
   const handleOnSignInPress = () => {
     navigation.navigate("SignIn");
   };
+
   const handleSubmit = () => {
-    // validate user input
     let isValid = true;
 
-    if (FirstName.trim() === "") {
-      setFirstName("Please enter your First name");
-      isValid = false;
-    }
-
     if (email.trim() === "") {
-      setEmailError("Please enter your email");
+      setEmailError("Please Enter your Email");
       isValid = false;
     } else if (!/\S+@\S+\.\S+/.test(email)) {
-      setEmailError("Please enter a valid email address");
+      setEmailError("Please Enter a valid Email Address");
       isValid = false;
     }
 
+    if (FirstName.trim() === "") {
+      setFirstNameError("Please Enter your First Name");
+      isValid = false;
+    }
+
+    if (LastName.trim() === "") {
+      setLastNameError("Please Enter your Last Name");
+      isValid = false;
+    }
+
+    if (Phone.trim() === "") {
+      setPhoneError("Please Enter your Phone Number");
+      isValid = false;
+    }
+    
     if (Password.trim() === "") {
-      setPasswordError("Please enter your password");
+      setPasswordError("Please Enter your Password");
       isValid = false;
     } else if (Password.trim().length < 6) {
       setPasswordError("Password must be at least 6 characters");
       isValid = false;
     }
 
+    if (ConfirmPassword.trim() === "") {
+      setConfirmPasswordError("Please Enter your Confirm Password");
+      isValid = false;
+    // } else if (ConfirmPassword.trim().length < 6) {
+    //   setConfirmPasswordError("Password must be at least 6 characters");
+    //   isValid = false;
+    }else if(ConfirmPassword.trim()!== Password) {
+      setConfirmPasswordError("Password must be match")
+      isValid = false;
+      }
+
     // submit form if input is valid
     if (isValid) {
       // submit form data to backend or perform other actions
-      handleSignUp();
+      handleRegister();
     }
   };
   const handleSignInWithGoogle = () => {
@@ -133,61 +153,9 @@ const SignUp = ({ navigation }) => {
         // ...
       });
   };
-  // const SignInValidation = yup.object().shape({
-  //   email: yup
-  //     .string()
-  //     .email("please enter valid email")
-  //     .required("Email address is required"),
-  //   firstName: yup
-  //     .string()
-  //     .min(2, ({ min }) => "Too Short!")
-  //     .max(50, ({ max }) => "Too Long!")
-  //     .required("firstName is required"),
-  //   lastName: yup
-  //     .string()
-  //     .min(2, ({ min }) => "Too Short!")
-  //     .max(50, ({ max }) => "Too Long!")
-  //     .required("lastName is required"),
-  //   password: yup
-  //     .string()
-  //     .min(6, ({ min }) => "password must be at least 6 characters")
-  //     .required("password is required"),
-  //   ConfirmPassword: yup
-  //     .string()
-  //     .min(6, ({ min }) => "password must be at least 6 characters")
-  //     .oneOf([yup.ref("password")], "your password do not match")
-  //     .required("confirmPassword is required"),
-  //   mobile: yup
-  //     .string()
-  //     .min(11, ({ min }) => "mobile number must be exactly 11 digit")
-  //     .max(11, ({ max }) => "mobile number must be exactly 11 digit")
-  //     .matches(/^[0-9]+$/, "mobile number must be only digit")
-  //     .required("mobile is required"),
-  // });
+ 
   return (
-    // <Formik
-    //   initialValues={{
-    //     email: "",
-    //     password: "",
-    //     ConfirmPassword: "",
-    //     firstName: "",
-    //     lastName: "",
-    //     mobile: "",
-    //   }}
-    //   validateOnMount={true}
-    //   onSubmit={(values) => handleRegister(values.email, values.password)}
-    //   validationSchema={SignInValidation}
-    // >
-    //   {({
-    //     handleChange,
-    //     handleBlur,
-    //     handleSubmit,
-    //     values,
-    //     touched,
-    //     errors,
-    //     setFieldTouched,
-    //     isValid,
-    //   }) => (
+    
     <SafeAreaView style={{ backgroundColor: COLORS.white, flex: 1 }}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <Loader visible={loading} />
@@ -212,105 +180,88 @@ const SignUp = ({ navigation }) => {
             </Text>
           </View>
           <View style={{ width: "100%" }}>
+
             <Input
+              iconName="email-outline"
+              placeholder="Enter your Email address"
+              value={email}
               onChangeText={(text) => {
                 setEmail(text);
                 setEmailError("");
               }}
-              // onBlur={handleBlur("email")}
-              value={email}
-              // onFocus={() => handleError(null, 'email')}
-              iconName="email-outline"
-              // label="Email"
-              placeholder="Enter your email address"
-              // error={errors.email}
-              // onChangeText={text => handleOnchange(text, 'email')}
             />
             {emailError ? (
-              <Text style={styles.errors}>{passwordError}</Text>
+              <Text style={styles.errors}>{emailError}</Text>
             ) : null}
+
             <Input
-              iconName="account-outline"
-              placeholder="Enter your first name"
-              value={FirstName}
-              // onChangeText={handleChange("firstName")}
-              onChangeText={(text) => {
-                setFirstName(text);
-                setFirstNameError("");
-              }}
-              // onBlur={() => setFieldTouched("firstName")}
+            iconName="account-outline"
+            placeholder="Enter your First name"
+            value={FirstName}
+            onChangeText={(text) => {
+              setFirstName(text);
+              setFirstNameError("");
+            }}
             />
             {FirstNameError ? (
-              <Text style={styles.errors}>{passwordError}</Text>
-            ) : null}
+              <Text style={styles.errors}>{FirstNameError}</Text>
+            ) : null} 
+
             <Input
               iconName="account-outline"
-              placeholder="Enter your last name"
+              placeholder="Enter your Last name"
               value={LastName}
-              // onChangeText={setlastName}
               onChangeText={(text) => {
-                // handleChange("lastName");
                 setLastName(text);
                 setLastNameError("");
               }}
-              // onBlur={() => setFieldTouched("lastName")}
             />
             {LastNameError ? (
-              <Text style={styles.errors}>{passwordError}</Text>
+              <Text style={styles.errors}>{LastNameError}</Text>
             ) : null}
+
             <Input
               iconName="phone-outline"
-              placeholder="Enter your phone number"
+              placeholder="Enter your Phone number"
               value={Phone}
-              // onChangeText={setmobile}
               onChangeText={(text) => {
-                // handleChange("mobile");
                 setPhone(text);
                 setPhoneError("");
               }}
-              // onBlur={() => setFieldTouched("mobile")}
             />
             {PhoneError ? (
-              <Text style={styles.errors}>{passwordError}</Text>
+              <Text style={styles.errors}>{PhoneError}</Text>
             ) : null}
+
             <Input
+             iconName="lock-outline"
+             placeholder="Enter your Password"
+             value={Password}
               onChangeText={(text) => {
-                // handleChange("password");
                 setPassword(text);
                 setPasswordError("");
               }}
-              // onBlur={handleBlur("password")}
-              value={Password}
-              // onFocus={() => handleError(null, 'password')}
-              iconName="lock-outline"
-              // label="Password"
-              placeholder="Enter your password"
-              // error={errors.password}
-              // onChangeText={text => handleOnchange(text, 'password')}
-              password
-            />
+              // password
+              secureTextEntry= {true}        
+              />
             {passwordError ? (
               <Text style={styles.errors}>{passwordError}</Text>
             ) : null}
+
             <Input
+             iconName="lock-outline"
+             placeholder="Enter your Confirm password"
+             value={ConfirmPassword}
               onChangeText={(text) => {
-                // handleChange("ConfirmPassword");
                 setConfirmPassword(text);
                 setConfirmPasswordError("");
               }}
-              // onBlur={handleBlur("ConfirmPassword")}
-              value={ConfirmPassword}
-              // onFocus={() => handleError(null, 'password')}
-              iconName="lock-outline"
-              // label="Password"
-              placeholder="Enter your confirm password"
-              // error={errors.password}
-              // onChangeText={text => handleOnchange(text, 'password')}
-              password
+              secureTextEntry= {true}        
             />
             {ConfirmPasswordError ? (
-              <Text style={styles.errors}>{passwordError}</Text>
+              <Text style={styles.errors}>{ConfirmPasswordError}</Text>
             ) : null}
+           
           </View>
           {/* <TouchableOpacity onPress={handleForgetPasswordPress}>
             <Text style={[styles.buttonText2,{right:0}]}>Forget Password ?</Text>
@@ -318,7 +269,7 @@ const SignUp = ({ navigation }) => {
           <CustomButton
             // disabled={!isValid}
             text={"Create Account"}
-            onPress={handleRegister}
+            onPress={handleSubmit}
           />
           <TouchableOpacity
             onPress={handleSignInWithGoogle}
