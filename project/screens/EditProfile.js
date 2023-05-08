@@ -47,7 +47,7 @@ import {
 import * as ImagePicker from "expo-image-picker";
 import React from "react";
 import { useState } from "react";
-import profile from "../assets/profile.jpg";
+import profile from "../assets/img/profile.jpg";
 import Loader from "../component/Loader";
 import { collection, getDoc, doc, updateDoc, setDoc } from "firebase/firestore";
 import { auth, db } from "../firebase/firebase";

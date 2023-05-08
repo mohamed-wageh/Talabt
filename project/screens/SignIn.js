@@ -223,7 +223,7 @@ const SignIn = ({ navigation }) => {
                 onPress={handleSubmit}
               />
               <TouchableOpacity
-                onPress={handleSignInWithFacebook}
+                onPress={GoogleAuthentication}
                 style={[
                   styles.button1,
                   { marginTop: 20 },

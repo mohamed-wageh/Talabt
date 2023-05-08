@@ -12,7 +12,7 @@ import {
 import { useState, useEffect } from "react";
 import { collection, getDoc, doc, updateDoc, setDoc } from "firebase/firestore";
 
-import profile from "../assets/profile.jpg";
+import profile from "../assets/img/profile.jpg";
 import { signOut } from "firebase/auth";
 import { auth, db } from "../firebase/firebase";
 export default function Profile({ navigation }) {

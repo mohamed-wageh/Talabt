@@ -9,7 +9,7 @@ import {
   Pressable,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { COLOURS, Items } from "../database/database";
+import { COLOURS, Items } from "../database/model/database";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 const MyCart = ({ navigation }) => {

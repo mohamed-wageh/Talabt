@@ -25,11 +25,9 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        
         initialRouteName="SplashScreen"
         screenOptions={{ headerShown: false }}
       >
-        
         <Stack.Screen name="Home" component={tabNavigator} />
         <Stack.Screen name="Welcome" component={Welcome} />
         <Stack.Screen name="SignIn" component={SignIn} />
